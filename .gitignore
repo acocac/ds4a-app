@@ -1,0 +1,14 @@
+# data
+data/*.csv*
+
+# notebooks
+*.ipynb
+.ipynb_checkpoints
+
+# others
+.DS_Store
+.idea/
+
+# python files
+*.pyc
+__pycache__
