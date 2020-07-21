@@ -1,7 +1,7 @@
 /*This document contains the styles that use the app. You can change these as you wish.*/
 
 .ds4a-app {
-    background-color: #F8F9F9
+    background-color: #878C8C;
 }
 
 .ds4a-body {
@@ -12,16 +12,16 @@
 }
 
 .ds4a-title {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     z-index: 999;
-    height: 120px;
+    height: 80px;
     width: 100%;
     margin-left: 16rem;
     margin-right: 2rem;
-    padding: 2rem 1rem;
-    background-color: #F8F9F9;
+    padding: 1rem 1rem;
+    background-color: #878C8C;
 }
 
 .ds4a-sidebar {
@@ -29,7 +29,42 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 16rem;
+    width: 14rem;
     padding: 2rem 1rem;
     background-color: #AAB7B8; 
+}
+
+.custom-tabs-container {
+    width: 100%;
+    background-color: #878C8C;
+}
+.custom-tabs {
+    border-top-left-radius: 5px;
+    background-color: #F8F9F9;
+    padding: 0px 24px;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.custom-tab {
+    color:gray;
+    background-color: #878C8C;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top: 3px solid transparent !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
+    border-bottom: 0px !important;
+    padding: 12px !important;
+    font-family: "system-ui";
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+.custom-tab--selected {
+    background-color: #F8F9F9;
+    color: black;
+    box-shadow: 0px 1px 0px white;
+    border-left: 1px solid lightgrey !important;
+    border-right: 1px solid lightgrey !important;
+    border-top: 5px solid #1df0f0 !important;
 }

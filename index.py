@@ -33,19 +33,47 @@ from app import app
 #LOAD THE DIFFERENT FILES
 from lib import title, sidebar, col_map, stats
 
+app = dash.Dash(
+    __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
+)
+server = app.server
+app.config['suppress_callback_exceptions'] = True
+
 #PLACE THE COMPONENTS IN THE LAYOUT
-app.layout =html.Div(
-    [ 
-      col_map.map,
-      stats.stats,
-      title.title,
-      sidebar.sidebar,
-    ],
-    className="ds4a-app", #You can also add your own css files by locating them into the assets folder
+app.layout = html.Div(className="ds4a-app", children=
+    [
+        html.Div([
+            title.title,
+            sidebar.sidebar
+        ]),
+        dbc.Row([
+            dcc.Tabs(id='tabs-header', value='tab-1', parent_className='custom-tabs', className='custom-tabs-container', children=[
+                dcc.Tab(value='tab-1', label='Characterization', className='custom-tab', selected_className='custom-tab--selected', children=[
+                    col_map.map,
+                    stats.stats,
+                    #sidebar.sidebar
+                    ]
+                        ),
+                dcc.Tab(value='tab-2', label='Prediction', className='custom-tab', selected_className='custom-tab--selected', children=[
+                    html.Div([
+                        html.H3('Predictive Modelling'),
+                        html.P('used model XGBOOST')
+                            ])
+                        ]
+                    #stats.stats2]
+                    ),
+                dcc.Tab(value='tab-3', label='Crime Network', className='custom-tab', selected_className='custom-tab--selected', children=[
+                    html.Div([
+                        html.H3('Crime Network Analysis'),
+                        html.P('clustering of crimes according to similarity')
+                            ])
+                        ]
+                    )
+                ])
+            ])
+        ]
 )
 
- 
-    
 ###############################################   
 #
 #           APP INTERACTIVITY:
@@ -55,9 +83,9 @@ app.layout =html.Div(
 ###############################################################
 #Load and modify the data that will be used in the app.
 #################################################################
-# engine = create_engine()
-# df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
-df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
+engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
+df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
+# df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
 
 with open('data/departamentos.geojson') as geo:
     geojson = json.loads(geo.read())
@@ -67,7 +95,6 @@ with open('data/states_col.json') as f:
 
 df['depto_abr'] = df['depto_establecimiento'].map(states_dict)
 df['Ingreso_Month'] = pd.to_datetime(df['fecha_ingreso'].map(lambda x: "{}-{}".format(x.year, x.month)))
-
 
 #############################################################
 # SCATTER & LINE PLOT : Add sidebar interaction here
@@ -82,14 +109,15 @@ df['Ingreso_Month'] = pd.to_datetime(df['fecha_ingreso'].map(lambda x: "{}-{}".f
 )
 def make_line_plot(state_dropdown, start_date, end_date):
     ddf = df[df['depto_abr'].isin(state_dropdown)]
+    ddf = df[df['depto_abr'].isin(state_dropdown)]
     ddf = ddf[(ddf['fecha_ingreso'] >= start_date) & (ddf['fecha_ingreso'] < end_date)]
 
-    ddf1 = ddf.groupby(['interno', 'depto_establecimiento','Ingreso_Month']).count().reset_index()
-    ddf1 = ddf1.groupby(['depto_establecimiento','Ingreso_Month']).count()
+    ddf1 = ddf.groupby(['interno', 'depto_establecimiento', 'Ingreso_Month']).count().reset_index()
+    ddf1 = ddf1.groupby(['depto_establecimiento', 'Ingreso_Month']).count()
     ddf1 = ddf1.reset_index()
 
-    Line_fig=px.line(ddf1,x="Ingreso_Month",y="interno", color="depto_establecimiento")
-    Line_fig.update_layout(title='Montly Convicts in selected deparments',paper_bgcolor="#F8F9F9")
+    Line_fig = px.line(ddf1, x="Ingreso_Month", y="interno", color="depto_establecimiento")
+    Line_fig.update_layout(title='Monthly Convicts in selected departments', paper_bgcolor="#F8F9F9")
 
     return [Line_fig]
 
@@ -106,12 +134,12 @@ def make_line_plot(state_dropdown, start_date, end_date):
         Input("date_picker", "end_date")
     ],
 )
-def update_map(start_date,end_date):
+def update_map(start_date, end_date):
     dff = df[(df['Ingreso_Month'] >= start_date) & (df['Ingreso_Month'] < end_date)] # filter dataset by the daterange
     dff = dff.groupby(['interno', 'depto_abr']).count().reset_index() #count unique convict ID
     dff = dff.groupby(['depto_abr']).count().reset_index()
 
-    fig_map2=px.choropleth_mapbox(dff,
+    fig_map2 = px.choropleth_mapbox(dff,
         locations='depto_abr',
         color='interno',
         geojson=geojson,
@@ -123,7 +151,7 @@ def update_map(start_date,end_date):
         opacity=0.5,
         title='Colombia Convicts'
         )
-    fig_map2.update_layout(title="COL Convicts",margin={"r":0,"t":0,"l":0,"b":0}, paper_bgcolor="#F8F9F9", plot_bgcolor="#F8F9F9",)
+    fig_map2.update_layout(title="COL Convicts", margin={"r":0,"t":0,"l":0,"b":0}, paper_bgcolor="#F8F9F9", plot_bgcolor="#F8F9F9",)
     return fig_map2
 
 #MAP click interaction
@@ -149,3 +177,7 @@ def click_saver(clickData,state):
 
 if __name__ == "__main__":
     app.run_server(debug=True)
+
+#############################################################
+# DEMOGRAPHICS PLOT : Add interactions here
+#############################################################
