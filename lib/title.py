@@ -12,9 +12,25 @@ import dash_bootstrap_components as dbc
 #Recall app
 from app import app
 
+####################################################################################
+# Add the DS4A_Img
+####################################################################################
 
+DS4A_Img = html.Div(
+            children=[
+                html.Img(
+                    src=app.get_asset_url("ds4a-img.svg"),
+                    id="ds4a-image",
+                    style={
+                                "height": "60px",
+                                "width": "auto",
+                                "margin-bottom": "25px",
+                    },
+                )
+            ],
+        )
 
-title=html.Div(className="ds4a-title", 
+title=html.Div(className="ds4a-title",
 	children=[
         dbc.Row(
             dbc.Col(

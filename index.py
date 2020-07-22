@@ -7,6 +7,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
 import plotly.express as px
+import warnings
+warnings.filterwarnings('ignore')
+#import matplotlib.pyplot as plt
+#import seaborn as sns
 
 #Dash Bootstrap Components
 import dash_bootstrap_components as dbc 
@@ -31,7 +35,7 @@ from app import app
 ###########################################################
 
 #LOAD THE DIFFERENT FILES
-from lib import title, sidebar, col_map, stats
+from lib import title, sidebar, col_map, stats, model
 
 app = dash.Dash(
     __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
@@ -42,36 +46,40 @@ app.config['suppress_callback_exceptions'] = True
 #PLACE THE COMPONENTS IN THE LAYOUT
 app.layout = html.Div(className="ds4a-app", children=
     [
+        html.Div([title.DS4A_Img]),
+        html.Div([title.title]),
         html.Div([
-            title.title,
-            sidebar.sidebar
-        ]),
-        dbc.Row([
-            dcc.Tabs(id='tabs-header', value='tab-1', parent_className='custom-tabs', className='custom-tabs-container', children=[
-                dcc.Tab(value='tab-1', label='Characterization', className='custom-tab', selected_className='custom-tab--selected', children=[
-                    col_map.map,
-                    stats.stats,
-                    #sidebar.sidebar
-                    ]
+            dbc.Col([
+                dcc.Tabs(id='tabs-header', value='tab-1', parent_className='custom-tabs', className='custom-tabs-container', children=[
+                    dcc.Tab(value='tab-1', label='Characterization', className='custom-tab', selected_className='custom-tab--selected', children=[
+                        html.Div([
+                            col_map.map,
+                            stats.stats,
+                            sidebar.sidebar
+                            ]
+                                ),
+                        ]),
+
+                    dcc.Tab(value='tab-2', label='Prediction', className='custom-tab', selected_className='custom-tab--selected', children=[
+                        html.Div([
+                            html.H3('Predictive Modelling'),
+                            html.P('used model XGBOOST'),
+                            html.Div([model.getVariables])
+                                ])
+                            ]
                         ),
-                dcc.Tab(value='tab-2', label='Prediction', className='custom-tab', selected_className='custom-tab--selected', children=[
-                    html.Div([
-                        html.H3('Predictive Modelling'),
-                        html.P('used model XGBOOST')
-                            ])
-                        ]
-                    #stats.stats2]
-                    ),
-                dcc.Tab(value='tab-3', label='Crime Network', className='custom-tab', selected_className='custom-tab--selected', children=[
-                    html.Div([
-                        html.H3('Crime Network Analysis'),
-                        html.P('clustering of crimes according to similarity')
-                            ])
+
+                    dcc.Tab(value='tab-3', label='Crime Network', className='custom-tab', selected_className='custom-tab--selected', children=[
+                        html.Div([
+                            html.H3('Crime Network Analysis'),
+                            html.P('clustering of crimes according to similarity')
+                                ])
                         ]
                     )
                 ])
             ])
-        ]
+        ]),
+    ]
 )
 
 ###############################################   

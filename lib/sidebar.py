@@ -18,20 +18,6 @@ from datetime import datetime as dt
 from app import app
 
 
-
-####################################################################################
-# Add the DS4A_Img
-####################################################################################
-
-DS4A_Img=html.Div(
-            children=[
-                html.Img(
-                    src=app.get_asset_url("ds4a-img.svg"),
-                    id="ds4a-image",
-                )
-            ],
-        )
-
 #############################################################################
 # State Dropdown
 #############################################################################
@@ -61,8 +47,8 @@ date_picker=dcc.DatePickerRange(
 #############################################################################
 # Sidebar Layout
 #############################################################################
-sidebar=html.Div(
-    [   DS4A_Img, #Add the DS4A_Img located in the assets folder
+sidebar = html.Div(
+    [   #Add the DS4A_Img located in the assets folder
         html.Hr(), #Add an horizontal line
         ####################################################
         #Place the rest of Layout here

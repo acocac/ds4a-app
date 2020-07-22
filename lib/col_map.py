@@ -55,7 +55,7 @@ Map_Fig.update_layout(title='Colombia map',paper_bgcolor="#F8F9F9")
 ##############################
 #Map Layout
 ##############################
-map=html.Div([
+map = html.Div([
  #Place the main graph component here:
   dcc.Graph(figure=Map_Fig, id='COL_map')
-], className="ds4a-body")
+], className="mini_container")
