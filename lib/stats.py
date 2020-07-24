@@ -13,11 +13,11 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 #Recall app
-from app import app
+#from app import app
 
-engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
-df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
-# df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
+#engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
+#df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
+df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
 
 ###############################################################
 # LINE PLOT
@@ -38,15 +38,16 @@ Line_fig.update_layout(title='Montly Convicts in selected deparments',paper_bgco
 ###############################################################
 # BAR PLOT
 ###############################################################
-gb_df = df.groupby(["edad", "genero"])["interno"].count().reset_index().sort_values("interno", ascending = False)
+demo_df = df[["interno","edad", "genero","depto_establecimiento"]].copy()
+demo_df.drop_duplicates(subset="interno", keep='first', inplace=True)
+demo_df = demo_df.reset_index(drop=True)
 bins = [18, 25, 35, 45, 55, 65, 100]
 labels = ['18-25', '26-35', '36-45', '46-55', '56-65', '65+']
-gb_df['age_range'] = pd.cut(gb_df.edad, bins, labels=labels, include_lowest=True)
-gb_df = gb_df.sort_values(["age_range"])
-gb_df
-#ddf2 = df[df['depto_establecimiento'].isin(states)]
-#ddf2 =ddf2.groupby(['interno','depto_establecimiento','Ingreso_Month']).count().reset_index()
-demo_plot = px.bar(gb_df, x="age_range", y="interno", color="genero", title="Demographics")
+demo_df['age_range'] = pd.cut(demo_df.edad, bins, labels = labels,include_lowest = True)
+gb_df = demo_df.groupby(["age_range", "genero","depto_establecimiento"])["interno"].count().reset_index().sort_values("age_range")
+Bar_fig = px.bar(gb_df, y="age_range", x="interno", color='genero', orientation='h')
+Bar_fig.show()
+Bar_fig.update_layout(title='Demographics Distribution',paper_bgcolor="#F8F9F9")
 
 #################################################################################
 # Here the layout for the plots to use.
@@ -56,11 +57,9 @@ stats=html.Div([
     dbc.Row([
         dbc.Col(
             dcc.Graph(figure=Line_fig, id='Line')
-        )
-    ]),
-    dbc.Row([
+        ),
         dbc.Col(
-            dcc.Graph(figure=demo_plot, id='Bar2')
+            dcc.Graph(figure=Bar_fig, id='Bar1')
         )
-    ])
 	], className="mini_container")
+])

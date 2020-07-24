@@ -15,7 +15,7 @@ from datetime import datetime as dt
 
 
 #Recall app
-from app import app
+#from app import app
 
 
 #############################################################################
@@ -45,6 +45,17 @@ date_picker=dcc.DatePickerRange(
 
 
 #############################################################################
+# Recidivism Checklist
+#############################################################################
+checklist_r=dcc.RadioItems(
+            id="checklist",
+            options=[{"label":"Recidivist", "value":"Recidivist"},
+                     {"label":"Non-Recidivist", "value":"Non-Recidivist"}
+                     ],
+            value=['Recidivist']
+            )
+
+#############################################################################
 # Sidebar Layout
 #############################################################################
 sidebar = html.Div(
@@ -59,8 +70,7 @@ sidebar = html.Div(
         html.H5("Select states"),
         dropdown,
         html.Hr(),
-
-
+        checklist_r
 
     ],className='ds4a-sidebar'
 

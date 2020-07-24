@@ -13,10 +13,10 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 #Recall app
-from app import app
+#from app import app
 
-engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
-df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
+#engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
+#df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
 # df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
 
 getVariables = html.Div([
@@ -44,7 +44,11 @@ getVariables = html.Div([
                                   min=0, max=1, step=1),
                     ],
                     className="flex-display",
-                    )
+                    ),
+                    html.Br(),
+                    html.Div([
+                        html.Button('Predict', id='predict-button')
+                    ])
                 ]
                 , className="mini-container", id="variables_predictor"
                 )

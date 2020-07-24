@@ -14,7 +14,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 #Recall app
-from app import app
+#from app import app
 
 
 
@@ -22,9 +22,9 @@ from app import app
 #############################
 # Load map data
 #############################
-engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
-df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
-# df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso'])  #if local > faster loading
+#engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
+#df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
+df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso'])  #if local > faster loading
 
 with open('data/departamentos.geojson') as geo:
     geojson = json.loads(geo.read())
