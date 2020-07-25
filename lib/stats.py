@@ -46,7 +46,6 @@ labels = ['18-25', '26-35', '36-45', '46-55', '56-65', '65+']
 demo_df['age_range'] = pd.cut(demo_df.edad, bins, labels = labels,include_lowest = True)
 gb_df = demo_df.groupby(["age_range", "genero","depto_establecimiento"])["interno"].count().reset_index().sort_values("age_range")
 Bar_fig = px.bar(gb_df, y="age_range", x="interno", color='genero', orientation='h')
-Bar_fig.show()
 Bar_fig.update_layout(title='Demographics Distribution',paper_bgcolor="#F8F9F9")
 
 #################################################################################

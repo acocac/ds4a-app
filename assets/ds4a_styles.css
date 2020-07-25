@@ -5,8 +5,8 @@
 }
 
 .ds4a-body {
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 14rem;
+    margin-right: 0rem;
     margin-top: 2rem;
     padding: 5rem 5rem;
     background-color: #878C8C;
@@ -31,15 +31,16 @@
     padding: 1rem 1rem;
     background-color: #878C8C;
 }
- */
+*/
+
 .ds4a-title {
-    position: relative;
+    position: fixed;
     top: 0;
     left: 0;
     height: 60px;
     width: 100%;
-    margin-left: 12rem;
-    margin-right: 12rem;
+    margin-left: 14rem;
+    margin-right: 0rem;
     margin-bottom: 0px;
     padding: 1rem 1rem;
     background-color: #878C8C;
@@ -47,7 +48,7 @@
 
 .ds4a-sidebar {
     position: fixed;
-    top: 50;
+    top: 1;
     left: 0;
     bottom: 0;
     width: 14rem;
