@@ -10,16 +10,18 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc 
 
 #Recall app
-from app import app
+#from app import app
 
+####################################################################################
+# Add the DS4A_Img
+####################################################################################
 
-
-title=html.Div(className="ds4a-title", 
+title=html.Div(className="ds4a-title",
 	children=[
         dbc.Row(
             dbc.Col(
                 html.H1("MinJusticia Dashboard"),
-                width={"size": 6, "offset": 3}
+                width={"size": 10, "offset": 3}
             )
         )],
 	id="title")
