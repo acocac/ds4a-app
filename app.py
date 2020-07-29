@@ -1,41 +1,28 @@
-#######################################################
-# Main APP definition.
-#
-# Dash Bootstrap Components used for main theme and better
-# organization. 
-#######################################################
+#TODO: Add dynamic dropdown menu for the field Geographic level
 
-#Basics Requirements
+#import dash related libraries
 import pathlib
 import dash
 from dash.dependencies import Input, Output, State, ClientsideFunction
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 import warnings
 warnings.filterwarnings('ignore')
 
-#Dash Bootstrap Components
-import dash_bootstrap_components as dbc
-
+#import local libraries
 from callbacks import register_callbacks
+from lib import title, sidebar, map, charts, model
 
+#create dash app server
 app = dash.Dash(__name__, external_stylesheets = [dbc.themes.BOOTSTRAP])
 server = app.server
 
 #We need this for function callbacks not present in the app.layout
 app.config.suppress_callback_exceptions = True
 
-###########################################################
-#
-#           APP LAYOUT:
-#
-###########################################################
 
-#LOAD THE DIFFERENT FILES
-from lib import title, sidebar, col_map, stats, model
-
-#
-#LOGO
+#logo
 DS4A_Img = html.Div(
             children=[
                 html.Img(
@@ -49,8 +36,9 @@ DS4A_Img = html.Div(
                 )
             ],
         )
-#
-#PLACE THE COMPONENTS IN THE LAYOUT
+
+
+#layout
 app.layout = html.Div(
          [
                 html.Div(className="title_wrap", children=
@@ -75,15 +63,20 @@ app.layout = html.Div(
                                         dbc.Row([
                                             dbc.Col([
                                                 sidebar.sidebar,
-                                                col_map.map,
-                                                # col_map.map_municipios,
-                                                stats.stats,
-                                                ])
-                                            #dbc.Col([
-                                            #    col_map.map
-                                            #    ]),
-                                            #dbc.Col([
-                                            #    stats.stats
+                                                map.map(),
+                                                html.Div(
+                                                    [
+                                                        dcc.Graph(id="characterization-line")
+                                                    ],
+                                                    className="pretty_container",
+                                                ),
+                                                html.Div(
+                                                    [
+                                                        dcc.Graph(id="characterization-bar")
+                                                    ],
+                                                    className="pretty_container",
+                                                ),
+                                            ]),
                                             ])
                                         ])
                                     ]),
@@ -110,7 +103,9 @@ app.layout = html.Div(
          ]
 )
 
+
 register_callbacks(app)
 
+
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8080)
+    app.run_server(debug=False, port=8080)

@@ -1,23 +1,28 @@
-#Basics Requirements
-import pathlib
-import dash
-from dash.dependencies import Input, Output, State, ClientsideFunction
+#import data related libraries
+import json
+from datetime import datetime as dt
+
+#import dash related libraries
 import dash_core_components as dcc
 import dash_html_components as html
 from controls import GEOGRAPHIC, POPULATION
 
-#Dash Bootstrap Components
-import dash_bootstrap_components as dbc
+with open('data/departamentos_col.json') as f:
+    DEPTOS = json.loads(f.read())
 
-#data
-import json
-from datetime import datetime as dt
-
-#Recall app
-#from app import app
+with open('data/departamentos_col.json') as f:
+    MUNIP = json.loads(f.read())
 
 geographic_options = [
     {"label": str(GEOGRAPHIC[geo]), "value": str(geo)} for geo in GEOGRAPHIC
+]
+
+deparmentos_options = [
+    {"label":key, "value":DEPTOS[key]} for key in DEPTOS.keys()
+]
+
+municipios_options = [
+    {"label":key, "value":MUNIP[key]} for key in MUNIP.keys()
 ]
 
 population_options = [
@@ -25,14 +30,12 @@ population_options = [
 ]
 
 #############################################################################
-# State Dropdown
+# Departamentos Dropdown
 #############################################################################
-with open('data/states_col.json') as f:
-    states = json.loads(f.read())
 
 dropdown=dcc.Dropdown(
         id="state_dropdown",
-        options=[{"label":key, "value":states[key]} for key in states.keys()],
+        options=deparmentos_options,
         value=["BOG",'BOY'],
         multi=True
         )
@@ -40,7 +43,6 @@ dropdown=dcc.Dropdown(
 ##############################################################################
 # Date Picker 
 ##############################################################################
-
 date_picker=dcc.DatePickerRange(
                 id='date_picker',
                 min_date_allowed=dt(2010, 1, 2),
@@ -52,7 +54,6 @@ date_picker=dcc.DatePickerRange(
 ##############################################################################
 # Geography
 ##############################################################################
-
 geography = dcc.Dropdown(
                 id="geographic_dropdown",
                 options=geographic_options,
@@ -91,5 +92,4 @@ sidebar = html.Div(
         html.H5("Select"),
         dropdown,
     ],className='ds4a-sidebar'
-
 )
