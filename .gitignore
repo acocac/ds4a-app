@@ -9,6 +9,7 @@ data/*.csv*
 .DS_Store
 .idea/
 *.html
+*.pickle
 
 # python files
 *.pyc
