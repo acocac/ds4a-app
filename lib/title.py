@@ -20,7 +20,7 @@ title=html.Div(className="ds4a-title",
 	children=[
         dbc.Row(
             dbc.Col(
-                html.H1("MinJusticia Dashboard"),
+                html.H1("MinJusticia Dashboard", style={'color': '#fefefe'}),
                 width={"size": 10, "offset": 3}
             )
         )],

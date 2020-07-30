@@ -1,11 +1,9 @@
 #import data related libraries
-import dash_bootstrap_components as dbc
-# import dash related libraries
-import dash_core_components as dcc
-import dash_html_components as html
 import pandas as pd
-import plotly.express as px
 from sqlalchemy import create_engine
+
+# import dash related libraries
+import plotly.express as px
 
 # import local libraries
 from lib.features import *
@@ -23,17 +21,33 @@ def line_Plot(df, geographicValue):
         fig = px.line(df, x="Ingreso_Month", y="interno", color="depto_establecimiento")
     elif geographicValue == 'City':
         fig = px.line(df, x="Ingreso_Month", y="interno", color="mpio_establecimiento")
-    fig.update_layout(title=f'Monthly convicts in selected {geographicValue}(s)', paper_bgcolor="#F8F9F9")
+    fig.update_layout(title=f'Monthly convicts in selected {geographicValue}(s)',
+                      paper_bgcolor="#242626",
+                      plot_bgcolor='#242626',
+                      xaxis_title='Date',
+                      yaxis_title='Convicts',
+                      font=dict(color='#fefefe'),
+                      legend_title="",
+                      legend=dict(
+                          orientation="h",
+                          yanchor="bottom",
+                          y=-0.3,
+                          xanchor="right",
+                          x=1
+                      )
+
+                      )
     return fig
 
-def getLine(geographicValue, states, startPeriod, endPeriod):
+def getLine(geographicValue, target, states, startPeriod, endPeriod):
     if geographicValue == 'Department':
-        tmp = df[df['depto_abr'].isin(states)]
+        tmp = df[(df['depto_abr'].isin(states)) & (df['target'] == target)]
         tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
         tmp = tmp.groupby(['interno', 'depto_establecimiento', 'Ingreso_Month']).count().reset_index()
         grouped = tmp.groupby(['depto_establecimiento', 'Ingreso_Month']).count().reset_index()
     elif geographicValue == 'City':
-        tmp = df[(df['Ingreso_Month'] >= startPeriod) & (df['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
+        tmp = df[df['target'] == target]
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
         tmp = tmp.groupby(['interno', 'mpio_establecimiento', 'Ingreso_Month']).count().reset_index()  # count unique convict ID
         grouped = tmp.groupby(['mpio_establecimiento', 'Ingreso_Month']).count().reset_index()
     fig = line_Plot(grouped, geographicValue)
@@ -41,24 +55,73 @@ def getLine(geographicValue, states, startPeriod, endPeriod):
 
 #bar plot object
 def bar_Plot(df, geographicValue):
-    fig = px.bar(df, y="age_range", x="interno", color='genero', orientation='h')
-    fig.update_layout(title=f'Demographics Distribution in selected {geographicValue}(s)', paper_bgcolor="#F8F9F9")
+    fig = px.bar(df, y="age_range", x="interno", color='genero', orientation='h', color_discrete_sequence = ['#0075ee','#00b6cb'])
+    fig.update_layout(title=f'Demographics Distribution in selected {geographicValue}(s)',
+                      paper_bgcolor="#242626",
+                      plot_bgcolor='#242626',
+                      xaxis_title='Convicts',
+                      yaxis_title='Age group',
+                      font=dict(color='#fefefe'),
+                      legend_title="",
+                      legend=dict(
+                          orientation="h",
+                          yanchor="bottom",
+                          y=1.02,
+                          xanchor="right",
+                          x=1
+                      )
+                      )
     return fig
 
-def getBar(geographicValue, states, startPeriod, endPeriod):
-    if geographicValue == 'Department':
-        targetvar = "depto_establecimiento"
-    elif geographicValue == 'City':
-        targetvar = "mpio_establecimiento"
+def getBar(geographicValue, target, states, startPeriod, endPeriod):
+    tmp = df[df['target'] == target]
 
-    tmp = df[df['depto_abr'].isin(states)]
+    if geographicValue == 'Department':
+        targetgeo = "depto_establecimiento"
+        tmp = tmp[tmp['depto_abr'].isin(states)]
+    elif geographicValue == 'City':
+        targetgeo = "mpio_establecimiento"
+
     tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
-    tmp = tmp[["interno", "edad", "genero", targetvar]]
+    tmp = tmp[["interno", "edad", "genero", targetgeo]]
     tmp.drop_duplicates(subset="interno", keep='first', inplace=True)
     tmp = tmp.reset_index(drop=True)
     bins = [18, 25, 35, 45, 55, 65, 100]
     labels = ['18-25', '26-35', '36-45', '46-55', '56-65', '65+']
     tmp['age_range'] = pd.cut(tmp.edad, bins, labels=labels, include_lowest=True)
-    grouped = tmp.groupby(["age_range", "genero", targetvar])["interno"].count().reset_index().sort_values("age_range")
+    grouped = tmp.groupby(["age_range", "genero", targetgeo])["interno"].count().reset_index().sort_values("age_range")
     fig = bar_Plot(grouped, geographicValue)
+    fig.data[0].hovertemplate = '%{label}<br>%{value}'
+    fig.data[1].hovertemplate = '%{label}<br>%{value}'
+    return fig
+
+#bar plot object
+def block_Plot(df, geographicValue):
+    fig = px.treemap(df, path=['delito'], values='count', color_discrete_sequence = px.colors.sequential.Plotly3)
+    fig.data[0].hovertemplate = '%{label}<br>Record Count: %{value}'
+    fig.update_layout(title=f'Top 50 offenses types in the selected {geographicValue}(s)',
+                      paper_bgcolor="#242626",
+                      font=dict(color='#fefefe'),
+                      )
+    return fig
+
+def getBlock(geographicValue, target, states, startPeriod, endPeriod):
+    tmp = df[df['target'] == target]
+
+    if geographicValue == 'Department':
+        targetgeo = "depto_establecimiento"
+        tmp = tmp[tmp['depto_abr'].isin(states)]
+    elif geographicValue == 'City':
+        targetgeo = "mpio_establecimiento"
+
+    tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
+    tmp = tmp[["interno", "delito", "fecha_ingreso", "regional", targetgeo]].copy()
+    grouped = tmp.groupby(["delito"]).size().reset_index(name="count").sort_values(by="count", ascending=False)
+    
+    if grouped.shape[0] > 50:
+        grouped = grouped.iloc[:50]
+    else:
+        grouped
+
+    fig = block_Plot(grouped, geographicValue)
     return fig

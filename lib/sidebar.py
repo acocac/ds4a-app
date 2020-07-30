@@ -37,7 +37,8 @@ dropdown=dcc.Dropdown(
         id="state_dropdown",
         options=deparmentos_options,
         value=["BOG",'BOY'],
-        multi=True
+        multi=True,
+        style = {'color': '#242426','background-color': '#bfbfbf'}
         )
 
 ##############################################################################
@@ -48,7 +49,8 @@ date_picker=dcc.DatePickerRange(
                 min_date_allowed=dt(2010, 1, 2),
                 max_date_allowed=dt(2020, 5, 31),
                 start_date=dt(2010,1,1).date(),
-                end_date=dt(2020, 1, 1).date()
+                end_date=dt(2020, 1, 1).date(),
+                style = {'color': '#242426','background-color': '#bfbfbf'}
             )
 
 ##############################################################################
@@ -59,14 +61,15 @@ geography = dcc.Dropdown(
                 options=geographic_options,
                 multi=False,
                 value=GEOGRAPHIC['Department'],
-                clearable=False
+                clearable=False,
+                style = {'color': '#242426','background-color': '#bfbfbf'}
             )
 
 #############################################################################
 # Recidivism Checklist
 #############################################################################
 checklist_r=dcc.RadioItems(
-            id="checklist",
+            id="target_dropdown",
             options=population_options,
             value=POPULATION['Recidivist']
             )
@@ -75,21 +78,18 @@ checklist_r=dcc.RadioItems(
 # Sidebar Layout
 #############################################################################
 sidebar = html.Div(
-    [   #Add the DS4A_Img located in the assets folder
-        html.Hr(), #Add an horizontal line
-        ####################################################
-        #Place the rest of Layout here
-        ####################################################
-        html.H5("Target population"),
+    [
+        html.Br(),
+        html.H5("Target population", style={'color': '#fefefe'}),
         checklist_r,
-        html.H5("Select dates"),
+        html.H5("Select dates", style={'color': '#fefefe'}),
         date_picker,
         html.Br(),
         html.Hr(),
-        html.H5("Geographic level"),
+        html.H5("Geographic level", style={'color': '#fefefe'}),
         geography,
         html.Br(),
-        html.H5("Select"),
+        html.H5("Select", style={'color': '#fefefe'}),
         dropdown,
     ],className='ds4a-sidebar'
 )

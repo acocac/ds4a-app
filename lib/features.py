@@ -19,5 +19,8 @@ def features(df):
     #ISO codes for departamentos
     df['depto_abr'] = df['depto_establecimiento'].map(states_dict)
 
+    #add target for queries
+    df['target'] = df['reincidente'].replace({0: 'Recidivist', 1: 'Nonrecidivist'})
+
     return df
 
