@@ -11,26 +11,26 @@ def build_characterization():
                 dbc.Col([
                     sidebar.sidebar,
                     map.map(),
-                    html.Div(
-                        [
-                            dcc.Graph(id="characterization-line")
-                        ],
-                        className="charts_container",
-                    ),
-                    html.Div(
-                        [
-                            dcc.Graph(id="characterization-bar")
-                        ],
-                        className="charts_container",
-                    ),
-                    html.Div(
-                        [
-                            dcc.Graph(id="characterization-block")
-                        ],
-                        className="charts_container",
-                    ),
                 ]),
+            ]),
+            dbc.Row([
+                html.Div([
+                    dcc.Graph(id="characterization-line")
+                ],
+                className='col-lg-6 mt-5'
+                ),
+                 html.Div([
+                    dcc.Graph(id="characterization-bar")
+                ],
+                className='col-lg-6 mt-5'
+                ),
+                html.Div([
+                    dcc.Graph(id="characterization-block")
+                ],
+                className='col-xl-12 col-lg-12 mt-5 charts_container'
+                )
             ])
+
         ])
     ]
 

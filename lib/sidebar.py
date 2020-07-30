@@ -1,6 +1,7 @@
 #import data related libraries
 import json
 from datetime import datetime as dt
+import dash_bootstrap_components as dbc
 
 #import dash related libraries
 import dash_core_components as dcc
@@ -28,6 +29,21 @@ municipios_options = [
 population_options = [
     {"label": str(POPULATION[pop]), "value": str(pop)} for pop in POPULATION
 ]
+
+# logo
+DS4A_Img = html.Div(
+    children=[
+        html.Img(
+            src="assets/ds4a-img.svg",
+            id="ds4a-image",
+            style={
+                "height": "60px",
+                "width": "auto",
+                # "margin-bottom": "10px",
+            }
+        )
+    ],
+)
 
 #############################################################################
 # Departamentos Dropdown
@@ -78,18 +94,26 @@ checklist_r=dcc.RadioItems(
 # Sidebar Layout
 #############################################################################
 sidebar = html.Div(
-    [
-        html.Br(),
-        html.H5("Target population", style={'color': '#fefefe'}),
-        checklist_r,
-        html.H5("Select dates", style={'color': '#fefefe'}),
-        date_picker,
-        html.Br(),
-        html.Hr(),
-        html.H5("Geographic level", style={'color': '#fefefe'}),
-        geography,
-        html.Br(),
-        html.H5("Select", style={'color': '#fefefe'}),
-        dropdown,
+    [   
+        html.Div(children=
+        [
+            html.Div([DS4A_Img])
+        ]),
+        html.Div([
+            html.Br(),
+            html.H5("Target population", style={'color': '#fefefe'}),
+            checklist_r,
+            html.H5("Select dates", style={'color': '#fefefe'}),
+            date_picker,
+            html.Br(),
+            html.Hr(),
+            html.H5("Geographic level", style={'color': '#fefefe'}),
+            geography,
+            html.Br(),
+            html.H5("Select", style={'color': '#fefefe'}),
+            dropdown,
+        ],
+        className='sidebar-menu'
+        )
     ],className='ds4a-sidebar'
 )

@@ -7,15 +7,12 @@
 .ds4a-body {
     margin-left: 14rem;
     margin-right: 0rem;
-    margin-top: 2rem;
     padding: 4rem 4rem;
     background-color: #2e2d33;
 }
 
 .title_wrap {
-    width: 100%;
     background-color: #2e2d33;
-    position: fixed;
     bottom: 0;
     /*position:relative;*/
 }
@@ -35,12 +32,18 @@
 
 .ds4a-sidebar {
     position: fixed;
-    top: 1;
     left: 0;
     bottom: 0;
     width: 14rem;
-    padding: 2rem 1rem;
     background-color: #4b4952;
+}
+
+.body-bk {
+    background-color: #4b4952;
+}
+
+.sidebar-menu {
+    padding: 1rem;
 }
 
 .custom-tabs-container {
