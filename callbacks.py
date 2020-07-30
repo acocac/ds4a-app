@@ -1,16 +1,10 @@
-#import data related libraries
-import pandas as pd
-from sqlalchemy import create_engine
-
 #import dash related libraries
-import plotly.express as px
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
 #import local libraries
 from lib.map import *
 from lib.charts import *
-from lib.features import *
 
 
 def register_callbacks(app):
@@ -22,12 +16,13 @@ def register_callbacks(app):
         ],
         [
             Input("geographic_dropdown", "value"),
+            Input("target_dropdown", "value"),
             Input("date_picker", "start_date"),
             Input("date_picker", "end_date")
         ]
     )
-    def update_map(geographicValue, start_date, end_date):
-        figure = get_map_data(geographicValue, start_date, end_date)
+    def update_map(geographicValue, target_dropdown, start_date, end_date):
+        figure = get_map_data(geographicValue, target_dropdown, start_date, end_date)
         return [figure]
 
     #callback map interaction
@@ -56,13 +51,14 @@ def register_callbacks(app):
         ],
         [
             Input("geographic_dropdown", "value"),
+            Input("target_dropdown", "value"),
             Input("state_dropdown", "value"),
             Input("date_picker", "start_date"),
             Input("date_picker", "end_date")
         ]
     )
-    def update_line(geographicValue, state_dropdown, start_date, end_date):
-        figure = getLine(geographicValue, state_dropdown, start_date, end_date)
+    def update_line(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
+        figure = getLine(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
 
     #callback bar plot
@@ -72,11 +68,29 @@ def register_callbacks(app):
         ],
         [
             Input("geographic_dropdown", "value"),
+            Input("target_dropdown", "value"),
             Input("state_dropdown", "value"),
             Input("date_picker", "start_date"),
             Input("date_picker", "end_date")
         ]
     )
-    def update_bar(geographicValue, state_dropdown, start_date, end_date):
-        figure = getBar(geographicValue, state_dropdown, start_date, end_date)
+    def update_bar(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
+        figure = getBar(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
+        return [figure]
+
+    #callback block plot
+    @app.callback(
+        [
+            Output('characterization-block', 'figure')
+        ],
+        [
+            Input("geographic_dropdown", "value"),
+            Input("target_dropdown", "value"),
+            Input("state_dropdown", "value"),
+            Input("date_picker", "start_date"),
+            Input("date_picker", "end_date")
+        ]
+    )
+    def update_block(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
+        figure = getBlock(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]

@@ -79,15 +79,17 @@ def map_municipios(df):
 
     return fig
 
-def get_map_data(geographicValue, startPeriod, endPeriod):
+def get_map_data(geographicValue, target, startPeriod, endPeriod):
     if geographicValue == 'Department':
-        tmp = df[(df['Ingreso_Month'] >= startPeriod) & (df['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
+        tmp = df[df['target'] == target]
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
         tmp = tmp.groupby(['interno', 'depto_abr']).count().reset_index()  # count unique convict ID
         grouped = tmp.groupby(['depto_abr']).count().reset_index()
         figure = map_departamentos(grouped)
 
     elif geographicValue == 'City':
-        tmp = df[(df['Ingreso_Month'] >= startPeriod) & (df['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
+        tmp = df[df['target'] == target]
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
         tmp = tmp.groupby(['interno', 'mpio_establecimiento']).count().reset_index()  # count unique convict ID
         grouped = tmp.groupby(['mpio_establecimiento']).count().reset_index()
         figure = map_municipios(grouped)

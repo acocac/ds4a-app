@@ -5,6 +5,5 @@ GEOGRAPHIC = dict(
 
 POPULATION = dict(
     Recidivist="Recidivist",
-    Noncecidivist="Non-Recidivist"
+    Nonrecidivist="Non-recidivist"
 )
-
