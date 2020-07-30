@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import pickle
 
-modelo_dash = pickle.load(open("model/model.pickle", "rb"))
+modelo_dash = pickle.load(open("model/Model_dash.pickle", "rb"))
 
 # Predictor Function
 def pred_reincidente(model , x):
