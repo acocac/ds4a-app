@@ -1,6 +1,11 @@
 # data
 data/*.csv*
 
+#model
+*.pickle
+.pickle
+model
+
 # notebooks
 *.ipynb
 .ipynb_checkpoints
@@ -9,9 +14,9 @@ data/*.csv*
 .DS_Store
 .idea/
 *.html
-*.pickle
 *.zip
 
 # python files
 *.pyc
 __pycache__
+
