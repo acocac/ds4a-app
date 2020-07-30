@@ -1,7 +1,6 @@
 #import data related libraries
 import json
 from datetime import datetime as dt
-import dash_bootstrap_components as dbc
 
 #import dash related libraries
 import dash_core_components as dcc
@@ -82,7 +81,7 @@ geography = dcc.Dropdown(
             )
 
 #############################################################################
-# Recidivism Checklist
+# Recidivism RadioItems
 #############################################################################
 checklist_r=dcc.RadioItems(
             id="target_dropdown",

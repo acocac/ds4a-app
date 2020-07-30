@@ -1,11 +1,17 @@
 #import dash related libraries
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+import plotly.graph_objects as go
 
 #import local libraries
 from lib.map import *
 from lib.charts import *
+from lib.cluster import *
 
+import networkx as nx
+
+distance = get_network_data()
+complete_graph = nx.from_pandas_adjacency(distance)
 
 def register_callbacks(app):
 
@@ -94,3 +100,10 @@ def register_callbacks(app):
     def update_block(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
         figure = getBlock(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
+
+    #callback network
+    @app.callback(
+        Output('cluster_plot', 'figure'),
+        [Input('cluster_dropdown', 'value')])
+    def update_crime(cluster):
+        return go.Figure(network_plot(cluster, complete_graph))
