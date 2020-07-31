@@ -2,6 +2,7 @@
 import json
 import pandas as pd
 from sqlalchemy import create_engine
+from decouple import config
 
 #import dash related libraries
 import dash_core_components as dcc
@@ -11,11 +12,15 @@ import plotly.express as px
 #import local libraries
 from lib.features import *
 
+mapbox_token = config("MAPBOX_SECRET")
+mapbox_style = config("MAPBOX_STYLE")
+
+px.set_mapbox_access_token(mapbox_token)
+
 #############################
 # Load map data
 #############################
-# engine = create_engine('postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
-# df = pd.read_sql(sql='select * from reincidentes left join municipios on reincidentes.ciudad=municipios.municipio', con=engine, parse_dates=['fecha_ingreso'])
+# engine = create_engine(config('DATABASE_URL'))
 # df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
 df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
 
@@ -46,14 +51,22 @@ def map_departamentos(df):
                              color='interno',
                              geojson=departamentos,
                              featureidkey="properties.depto_abr",
-                             color_continuous_scale="Viridis",
+                             # color_continuous_scale="Viridis",
+                             color_continuous_scale=px.colors.sequential.deep,
                              opacity=0.5,
                              )
 
+    fig.update_layout(mapbox_style = "open-street-map")
+
     fig.update_layout(
-        mapbox_style="carto-positron",
+        # template="plotly_dark",
+        title_text="Convicts",
+        paper_bgcolor="#2c2f38",
+        plot_bgcolor='#2c2f38',
+        mapbox_style=mapbox_style,
         mapbox_zoom=4,
-        mapbox_center={"lat": 4.570868, "lon": -74.2973328})
+        mapbox_center={"lat": 4.570868, "lon": -74.2973328},
+        font=dict(color='#fefefe'))
 
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
 
@@ -71,6 +84,7 @@ def map_municipios(df):
                                )
 
     fig.update_layout(
+        template="plotly_dark",
         mapbox_style="carto-positron",
         mapbox_zoom=4,
         mapbox_center={"lat": 4.570868, "lon": -74.2973328})

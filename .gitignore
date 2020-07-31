@@ -1,4 +1,4 @@
-# data
+#data
 data/*.csv*
 
 #model
@@ -6,17 +6,18 @@ data/*.csv*
 .pickle
 model
 
-# notebooks
+#notebooks
 *.ipynb
 .ipynb_checkpoints
 
-# others
+#others
 .DS_Store
 .idea/
 *.html
 *.zip
+.env
 
-# python files
+#python files
 *.pyc
 __pycache__
 

@@ -43,20 +43,21 @@ def build_characterization():
 
 def build_network():
     return [
-        html.Div(children=[
-            html.Div(
-                [
-                    dcc.Dropdown(
-                        id='cluster_dropdown',
-                        options=[{'label': 'CLUSTER {}'.format(d), 'value': d} for d in range(12)],
-                        value=4,
-                        multi=False,
-                        style=dropdown_type,
-                    ),
-                    dcc.Graph(id='cluster_plot'),
-                ], className='col-xl-12 col-lg-12 mt-5 charts_container'),
-
-        ])
+        html.Br()
+        # html.Div(children=[
+        #     html.Div(
+        #         [
+        #             dcc.Dropdown(
+        #                 id='cluster_dropdown',
+        #                 options=[{'label': 'CLUSTER {}'.format(d), 'value': d} for d in range(12)],
+        #                 value=4,
+        #                 multi=False,
+        #                 style=dropdown_type,
+        #             ),
+        #             dcc.Graph(id='cluster_plot'),
+        #         ], className='col-xl-12 col-lg-12 mt-5 charts_container'),
+        #
+        # ])
     ]
 
 def build_prediction():

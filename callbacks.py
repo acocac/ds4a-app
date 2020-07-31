@@ -1,20 +1,14 @@
-#import dash related libraries
+# import dash related libraries
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-import plotly.graph_objects as go
 
-#import local libraries
+# import local libraries
 from lib.map import *
 from lib.charts import *
 from lib.cluster import *
 
-import networkx as nx
-
-distance = get_network_data()
-complete_graph = nx.from_pandas_adjacency(distance)
 
 def register_callbacks(app):
-
     # callback update_map
     @app.callback(
         [
@@ -31,18 +25,18 @@ def register_callbacks(app):
         figure = get_map_data(geographicValue, target_dropdown, start_date, end_date)
         return [figure]
 
-    #callback map interaction
+    # callback map interaction
     @app.callback(
-        Output('state_dropdown','value'),
+        Output('state_dropdown', 'value'),
         [
-            Input('map','clickData')
+            Input('map', 'clickData')
         ],
         [
-            State('state_dropdown','value')
+            State('state_dropdown', 'value')
         ]
 
     )
-    def click_saver(clickData,state):
+    def click_saver(clickData, state):
         if clickData is None:
             raise PreventUpdate
 
@@ -50,7 +44,7 @@ def register_callbacks(app):
 
         return state
 
-    #callback line plot
+    # callback line plot
     @app.callback(
         [
             Output('characterization-line', 'figure')
@@ -67,7 +61,7 @@ def register_callbacks(app):
         figure = getLine(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
 
-    #callback bar plot
+    # callback bar plot
     @app.callback(
         [
             Output('characterization-bar', 'figure')
@@ -84,7 +78,7 @@ def register_callbacks(app):
         figure = getBar(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
 
-    #callback block plot
+    # callback block plot
     @app.callback(
         [
             Output('characterization-block', 'figure')
@@ -101,9 +95,11 @@ def register_callbacks(app):
         figure = getBlock(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
 
-    #callback network
+    # callback network
     @app.callback(
-        Output('cluster_plot', 'figure'),
+        [Output('cluster_plot', 'figure')],
         [Input('cluster_dropdown', 'value')])
     def update_crime(cluster):
-        return go.Figure(network_plot(cluster, complete_graph))
+        figure = get_nplot(cluster)
+        # return go.Figure(network_plot(cluster, complete_graph))
+        return [figure]

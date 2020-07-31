@@ -2,14 +2,14 @@ import pandas as pd
 from sqlalchemy import create_engine
 from scipy.spatial.distance import pdist, jaccard
 from scipy.spatial.distance import squareform
-import plotly.graph_objects as go
 import networkx as nx
 import numpy as np
+import plotly.graph_objects as go
+from decouple import config
 
 
 def get_network_data():
-    engine = create_engine(
-        'postgresql://team_60:natesh@nicolasviana.chhlcoydquoi.us-east-2.rds.amazonaws.com/minjusticia')
+    engine = create_engine(config('DATABASE_URL'))
     sim_df = pd.read_sql('select interno, delito, fecha_ingreso from reincidentes', engine)
 
     col_list = ['interno', 'delito_x', 'delito_y', 'fecha_ingreso_x', 'fecha_ingreso_y']
@@ -114,3 +114,10 @@ def network_plot(cluster, complete_graph):
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
 
     return dict(data=traces, layout=layout)
+
+distance = get_network_data()
+complete_graph = nx.from_pandas_adjacency(distance)
+
+def get_nplot(cluster):
+    fig = go.Figure(network_plot(cluster, complete_graph))
+    return fig
