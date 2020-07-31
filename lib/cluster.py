@@ -104,9 +104,11 @@ def network_plot(cluster, complete_graph):
     traces = edges_list + [node_trace]
 
     layout = go.Layout(
-        title='<br>Redes de Reincidencia',
-        titlefont_size=16,
-        template='plotly_white',
+        # title='<br>Redes de Reincidencia',
+        # titlefont_size=16,
+        # template='plotly_white',
+        paper_bgcolor="#2c2f38",
+        plot_bgcolor='#2c2f38',
         showlegend=False,
         hovermode='closest',
         margin=dict(b=20, l=5, r=5, t=40),

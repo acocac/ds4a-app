@@ -40,6 +40,21 @@
     background-color: #4b4952;
 }
 
+.network-sidebar {
+    position: fixed;
+    left: 0rem;
+    bottom: 8rem;
+    width: 14rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    background-color: #4b4952;
+}
+
+.network-menu {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
 .body-bk {
     background-color: #4b4952;
     padding-left: 0rem;
@@ -106,4 +121,9 @@
   margin: 10px;
   padding: 0px;
   position: relative;
+}
+
+#mainContainer {
+  display: flex;
+  flex-direction: column;
 }

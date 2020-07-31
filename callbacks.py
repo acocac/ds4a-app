@@ -6,6 +6,7 @@ from dash.exceptions import PreventUpdate
 from lib.map import *
 from lib.charts import *
 from lib.cluster import *
+from lib.tabs import *
 
 
 def register_callbacks(app):

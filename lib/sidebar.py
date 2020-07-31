@@ -45,10 +45,7 @@ DS4A_Img = html.Div(
     ],
 )
 
-#############################################################################
-# Departamentos Dropdown
-#############################################################################
-
+##filters exploratory
 dropdown = dcc.Dropdown(
     id="state_dropdown",
     options=deparmentos_options,
@@ -57,9 +54,6 @@ dropdown = dcc.Dropdown(
     style={'color': '#242426', 'background-color': '#bfbfbf'}
 )
 
-##############################################################################
-# Date Picker 
-##############################################################################
 date_picker = dcc.DatePickerRange(
     id='date_picker',
     min_date_allowed=dt(2010, 1, 2),
@@ -69,9 +63,6 @@ date_picker = dcc.DatePickerRange(
     style={'color': '#242426', 'background-color': '#bfbfbf'}
 )
 
-##############################################################################
-# Geography
-##############################################################################
 geography = dcc.Dropdown(
     id="geographic_dropdown",
     options=geographic_options,
@@ -81,16 +72,6 @@ geography = dcc.Dropdown(
     style={'color': '#242426', 'background-color': '#bfbfbf'}
 )
 
-#############################################################################
-# Recidivism RadioItems
-#############################################################################
-# checklist_r=dcc.RadioItems(
-#             id="target_dropdown",
-#             options=population_options,
-#             value=POPULATION['Recidivist'],
-#             style = {'color': '#242426','background-color': '#bfbfbf'}
-#             )
-
 checklist_r = dbc.Select(
     id="target_dropdown",
     options=population_options,
@@ -98,9 +79,6 @@ checklist_r = dbc.Select(
     style={'color': '#242426', 'background-color': '#bfbfbf'},
 )
 
-#############################################################################
-# Sidebar Layout
-#############################################################################
 sidebar = html.Div(
     [
         html.Div(children=
