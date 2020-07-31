@@ -4,6 +4,13 @@ import dash_bootstrap_components as dbc
 
 from lib import title, sidebar, map, charts, model, tabs
 
+dropdown_type = {
+    "background-color": "white",
+    "fontColor": "white",
+    "font-family": "Helvetica Neue",
+    "font-size": 12,
+}
+
 def build_characterization():
     return [
         html.Div([
@@ -11,42 +18,52 @@ def build_characterization():
                 dbc.Col([
                     sidebar.sidebar,
                     map.map(),
-                    html.Div(
-                        [
-                            dcc.Graph(id="characterization-line")
-                        ],
-                        className="charts_container",
-                    ),
-                    html.Div(
-                        [
-                            dcc.Graph(id="characterization-bar")
-                        ],
-                        className="charts_container",
-                    ),
-                    html.Div(
-                        [
-                            dcc.Graph(id="characterization-block")
-                        ],
-                        className="charts_container",
-                    ),
                 ]),
+            ]),
+            dbc.Row([
+                html.Div([
+                    dcc.Graph(id="characterization-line")
+                ],
+                className='col-lg-6 mt-5'
+                ),
+                 html.Div([
+                    dcc.Graph(id="characterization-bar")
+                ],
+                className='col-lg-6 mt-5'
+                ),
+                html.Div([
+                    dcc.Graph(id="characterization-block")
+                ],
+                className='col-xl-12 col-lg-12 mt-5 charts_container'
+                )
             ])
+
         ])
     ]
 
 def build_network():
     return [
-        html.Div([
-            html.H3('Crime Network Analysis'),
-            html.P('clustering of crimes according to similarity')
+        html.Div(children=[
+            html.Div(
+                [
+                    dcc.Dropdown(
+                        id='cluster_dropdown',
+                        options=[{'label': 'CLUSTER {}'.format(d), 'value': d} for d in range(12)],
+                        value=4,
+                        multi=False,
+                        style=dropdown_type,
+                    ),
+                    dcc.Graph(id='cluster_plot'),
+                ], className='col-xl-12 col-lg-12 mt-5 charts_container'),
+
         ])
     ]
 
 def build_prediction():
     return [
         html.Div([
-            html.H3('Predictive Modelling'),
-            html.P('used models logistic regression, random forest and XGBOOST'),
-            html.Div([model.getVariables])
+            html.Br(),
+            html.H3('Predictive Modelling', style={'color': '#fefefe'}),
+            html.Div([model.predictorUI], style={'color': '#fefefe'})
         ])
     ]

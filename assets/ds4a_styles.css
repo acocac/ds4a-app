@@ -1,22 +1,19 @@
 /*This document contains the styles that use the app. You can change these as you wish.*/
 
 .ds4a-app {
-    background-color: #2e2d33;
+    background-color: #202124;
 }
 
 .ds4a-body {
     margin-left: 14rem;
     margin-right: 0rem;
-    margin-top: 2rem;
-    padding: 4rem 4rem;
+    /*top: 8rem;*/
+    padding: 7rem 3rem;
     background-color: #2e2d33;
 }
 
 .title_wrap {
-    width: 100%;
     background-color: #2e2d33;
-    position: fixed;
-    bottom: 0;
     /*position:relative;*/
 }
 
@@ -35,18 +32,45 @@
 
 .ds4a-sidebar {
     position: fixed;
-    top: 1;
-    left: 0;
-    bottom: 0;
+    left: 0rem;
+    bottom: 8rem;
     width: 14rem;
-    padding: 2rem 1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
     background-color: #4b4952;
+}
+
+.network-sidebar {
+    position: fixed;
+    left: 0rem;
+    bottom: 8rem;
+    width: 14rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    background-color: #4b4952;
+}
+
+.network-menu {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.body-bk {
+    background-color: #4b4952;
+    padding-left: 0rem;
+    padding-top: 0rem;
+}
+
+.sidebar-menu {
+    padding-left: 0rem;
+    padding-right: 0rem;
 }
 
 .custom-tabs-container {
     width: 100%;
     background-color: #2e2d33;
 }
+
 .custom-tabs {
     border-top-left-radius: 5px;
     background-color: #2c2f38;
@@ -55,7 +79,7 @@
 }
 
 .custom-tab {
-    color:gray;
+    color: #4b4952;
     background-color: #2e2d33;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -71,12 +95,12 @@
 }
 
 .custom-tab--selected {
-    background-color: #F8F9F9;
+    background-color: #4b4952;
     color: black;
     box-shadow: 0px 1px 0px gray;
     border-left: 1px solid lightgrey !important;
     border-right: 1px solid lightgrey !important;
-    border-top: 5px solid #1df0f0 !important;
+    border-top: 5px solid #4b4952 !important;
 }
 
 .control_label {
@@ -93,9 +117,13 @@
 
 .charts_container {
   border-radius: 0px;
-  background-color: #242626;
+  background-color: #2c2f38;
   margin: 10px;
   padding: 0px;
   position: relative;
-    font-size: 100px;
+}
+
+#mainContainer {
+  display: flex;
+  flex-direction: column;
 }

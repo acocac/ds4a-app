@@ -21,36 +21,18 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 app.config['suppress_callback_exceptions'] = True
 
-# logo
-DS4A_Img = html.Div(
-    children=[
-        html.Img(
-            src=app.get_asset_url("ds4a-img.svg"),
-            id="ds4a-image",
-            style={
-                "height": "60px",
-                "width": "auto",
-                # "margin-bottom": "10px",
-            }
-        )
-    ],
-)
-
 # layout
-app.layout = html.Div(
-    [
+app.layout = html.Div(className="body-bk", children=
+    [   
         html.Div(className="title_wrap", children=
         [
             dbc.Row([
                 dbc.Col([
-                    html.Div([DS4A_Img])
-                ]),
-                dbc.Col([
                     html.Div([title])
                 ])
             ])
-        ]
-                 ),
+        ]),
+        
         html.Div(className="ds4a-body", children=
         [
             html.Div([
@@ -63,4 +45,4 @@ app.layout = html.Div(
 register_callbacks(app)
 
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8080)
+    app.run_server(debug=True, port=8181)
