@@ -30,7 +30,7 @@
     background-color: #2e2d33;
 }
 
-.ds4a-sidebar {
+.sidebar-exploratory {
     position: fixed;
     left: 0rem;
     bottom: 8rem;
@@ -40,17 +40,37 @@
     background-color: #4b4952;
 }
 
-.network-sidebar {
+.sidebar-menu-exploratory {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.sidebar-network {
     position: fixed;
     left: 0rem;
-    bottom: 8rem;
+    bottom: 32rem;
     width: 14rem;
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
 }
 
-.network-menu {
+.sidebar-menu-network {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.sidebar-prediction {
+    position: fixed;
+    left: 0rem;
+    bottom: 5rem;
+    width: 14rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    background-color: #4b4952;
+}
+
+.sidebar-menu-prediction {
     padding-left: 0rem;
     padding-right: 0rem;
 }
@@ -59,11 +79,6 @@
     background-color: #4b4952;
     padding-left: 0rem;
     padding-top: 0rem;
-}
-
-.sidebar-menu {
-    padding-left: 0rem;
-    padding-right: 0rem;
 }
 
 .custom-tabs-container {
@@ -95,7 +110,7 @@
 }
 
 .custom-tab--selected {
-    background-color: #4b4952;
+    background-color: cornsilk;
     color: black;
     box-shadow: 0px 1px 0px gray;
     border-left: 1px solid lightgrey !important;
@@ -104,11 +119,15 @@
 }
 
 .control_label {
-  margin: 0;
+  margin: 0px;
   padding: 10px;
   padding-bottom: 0px;
   margin-bottom: 0px;
-  width: calc(100%-20px);
+  width: calc(100%-60px);
+       font-size: 13px;
+    color: White;
+    text-decoration: none;
+    display: block;
 }
 
 .flex-display {
@@ -121,9 +140,4 @@
   margin: 10px;
   padding: 0px;
   position: relative;
-}
-
-#mainContainer {
-  display: flex;
-  flex-direction: column;
 }

@@ -6,7 +6,7 @@ from dash.exceptions import PreventUpdate
 from lib.map import *
 from lib.charts import *
 from lib.cluster import *
-from lib.tabs import *
+from lib.model import *
 
 
 def register_callbacks(app):
@@ -102,5 +102,27 @@ def register_callbacks(app):
         [Input('cluster_dropdown', 'value')])
     def update_crime(cluster):
         figure = get_nplot(cluster)
-        # return go.Figure(network_plot(cluster, complete_graph))
         return [figure]
+
+    # callback prediction
+    @app.callback(
+        [Output('outputTarget', 'children'),
+         Output('outputProbability', 'children')],
+        [Input('buttonPredict', 'n_clicks')],
+        [State('edad-input', 'value'),
+         State('genero-input', 'value'),
+         State('sentencia-input', 'value'),
+         State('estudio-input', 'value'),
+         State('educativo-input', 'value'),
+         State('trabajo-input', 'value'),
+         State('intramuros-input', 'value'),
+         State('delitos-input', 'value'),
+         State('calificado-input', 'value'),
+         State('agravado-input', 'value'),
+         State('cluster1-input', 'value'),
+         State('cluster4-input', 'value'),
+         State('cluster5-input', 'value')
+         ])
+    def update_output(n_clicks, age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5):
+        target, probability = get_pred(age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5)
+        return [target, probability]
