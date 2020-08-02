@@ -16,6 +16,8 @@ model
 *.html
 *.zip
 .env
+municipios.geojson
+municipios_col.json
 
 #python files
 *.pyc

@@ -10,15 +10,17 @@
     /*top: 8rem;*/
     padding: 7rem 3rem;
     background-color: #2e2d33;
+    /*position:absolute;*/
 }
 
 .title_wrap {
     background-color: #2e2d33;
-    /*position:relative;*/
+    /*position:absolute;*/
 }
 
 .ds4a-title {
     position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
     height: 60px;
@@ -30,27 +32,62 @@
     background-color: #2e2d33;
 }
 
-.ds4a-sidebar {
+.sidebar-exploratory {
     position: fixed;
-    left: 0rem;
-    bottom: 8rem;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding-top: 2rem;
+    /*left: 0rem;*/
+    /*bottom: 5rem;*/
+    width: 14rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    background-color: #4b4952;
+    overflow-y: auto;
+}
+
+.sidebar-menu-exploratory {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.sidebar-network {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding-top: 2rem;
+    /*left: 0rem;*/
+    /*bottom: 32rem;*/
     width: 14rem;
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
 }
 
-.network-sidebar {
+.sidebar-menu-network {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.sidebar-prediction {
     position: fixed;
-    left: 0rem;
-    bottom: 8rem;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding-top: 2rem;
+    /*left: 0rem;*/
+    /*bottom: 5rem;*/
     width: 14rem;
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
+    justify-content: right;
 }
 
-.network-menu {
+.sidebar-menu-prediction {
+    /*vertical-align: top,*/
     padding-left: 0rem;
     padding-right: 0rem;
 }
@@ -59,11 +96,6 @@
     background-color: #4b4952;
     padding-left: 0rem;
     padding-top: 0rem;
-}
-
-.sidebar-menu {
-    padding-left: 0rem;
-    padding-right: 0rem;
 }
 
 .custom-tabs-container {
@@ -95,7 +127,7 @@
 }
 
 .custom-tab--selected {
-    background-color: #4b4952;
+    background-color: cornsilk;
     color: black;
     box-shadow: 0px 1px 0px gray;
     border-left: 1px solid lightgrey !important;
@@ -104,11 +136,14 @@
 }
 
 .control_label {
-  margin: 0;
-  padding: 10px;
+  margin: 0px;
+  padding-left: 0px;
   padding-bottom: 0px;
-  margin-bottom: 0px;
-  width: calc(100%-20px);
+  width: calc(100%-60px);
+       font-size: 13px;
+    color: White;
+    text-decoration: none;
+    display: block;
 }
 
 .flex-display {
@@ -123,7 +158,38 @@
   position: relative;
 }
 
-#mainContainer {
-  display: flex;
-  flex-direction: column;
+.dcc_control {
+  /*margin-botton: 2rem;*/
+  padding: 0px;
+  width: calc(100%-40px);
+}
+
+.slider_title {
+    margin: 0;
+  padding: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  width: calc(100%-60px);
+    font-size: 15px;
+    color: White;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+}
+
+.slider_label {
+    margin: 0;
+  padding: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  width: calc(100%-60px);
+    font-size: 13px;
+    color: White;
+    text-decoration: none;
+    display: flex;
+}
+
+.sliders-prediction{
+    top: 0;
+    margin: 0rem;
 }
