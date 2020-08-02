@@ -8,6 +8,8 @@ import dash_core_components as dcc
 # import viz related libraries
 import plotly.graph_objs as go
 
+#import local libraries
+from controls import IMPVARIABLES
 
 loadModel = pickle.load(open("model/Model_dash.pickle", "rb"))
 
@@ -48,27 +50,29 @@ def get_pred(age, gender, sentence, study, education, work, intramuros, crimes, 
 
 
 #create VarImp plot
-feature_important = loadModel.get_booster().get_score(importance_type='weight')
+# feature_important = loadModel.get_booster().get_score(importance_type='weight')
+feature_important = loadModel.get_booster().get_fscore()
 keys = list(feature_important.keys())
 values = list(feature_important.values())
+keys_rename = list(map(IMPVARIABLES.get, keys))
 
 imp_fig = go.Figure(go.Bar(
         x=values,
-        y=keys,
+        y=keys_rename,
         marker=dict(
             color='#00b6cb'
         ),
         orientation='h',
-    ))
+))
 
 imp_fig.update_layout(yaxis={'categoryorder': 'total ascending'})
 
-imp_fig.update_layout(title=f'Variable Importance',
+imp_fig.update_layout(title=f'Weighted Variable Importance of the Predictor (XGBoost)',
                   paper_bgcolor="#2c2f38",
                   plot_bgcolor='#2c2f38',
                   font=dict(color='#fefefe'),
                   xaxis_title='Importance',
-                  yaxis_title='Variable'
+                  yaxis_title='Variable',
                   )
 
 imp_fig.update_traces(showlegend=False)

@@ -83,9 +83,11 @@
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
+    justify-content: right;
 }
 
 .sidebar-menu-prediction {
+    /*vertical-align: top,*/
     padding-left: 0rem;
     padding-right: 0rem;
 }
@@ -135,9 +137,8 @@
 
 .control_label {
   margin: 0px;
-  padding: 10px;
+  padding-left: 0px;
   padding-bottom: 0px;
-  margin-bottom: 0px;
   width: calc(100%-60px);
        font-size: 13px;
     color: White;
@@ -155,4 +156,40 @@
   margin: 10px;
   padding: 0px;
   position: relative;
+}
+
+.dcc_control {
+  /*margin-botton: 2rem;*/
+  padding: 0px;
+  width: calc(100%-40px);
+}
+
+.slider_title {
+    margin: 0;
+  padding: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  width: calc(100%-60px);
+    font-size: 15px;
+    color: White;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+}
+
+.slider_label {
+    margin: 0;
+  padding: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  width: calc(100%-60px);
+    font-size: 13px;
+    color: White;
+    text-decoration: none;
+    display: flex;
+}
+
+.sliders-prediction{
+    top: 0;
+    margin: 0rem;
 }

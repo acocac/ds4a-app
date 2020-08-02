@@ -37,7 +37,6 @@ def build_characterization():
                 ],
                     className='col-xl-12 col-lg-12 mt-5 charts_container'
                 ),
-                # table.renderTable()
             ])
 
         ])
@@ -54,7 +53,7 @@ def build_network():
             ]),
             dbc.Row([
                 html.Div([
-                    dcc.Graph(id='cluster_plot'),
+                    # dcc.Graph(id='cluster_plot'),
                 ], className='col-xl-12 col-lg-12 mt-5 charts_container'),
             ])
         ])
@@ -73,10 +72,10 @@ def build_prediction():
                 html.Div([
                     html.H6("The result of the prediction whether the intern would reoffend is: ",
                             style={'color': '#fefefe'}),
-                    html.H2("Response: ", style={'color': '#fefefe'}),
-                    html.H2('', id='outputTarget', style={'color': '#fefefe'}),
-                    html.H6("with a probability of: ", style={'color': '#fefefe'}),
-                    html.H3('', id="outputProbability", style={'color': '#fefefe'}),
+                    # html.H2("Response: ", style={'color': '#fefefe'}),
+                    # html.H2('', id='outputTarget', style={'color': '#fefefe'}),
+                    # html.H6("with a probability of: ", style={'color': '#fefefe'}),
+                    # html.H3('', id="outputProbability", style={'color': '#fefefe'}),
                     model.plotImp(),
                 ], className='col-xl-12 col-lg-12 mt-5 charts_container'),
             ])

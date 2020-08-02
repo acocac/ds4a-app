@@ -13,7 +13,7 @@ import plotly.express as px
 
 #import local libraries
 from lib import features
-
+from lib import utils
 
 mapbox_token = config("MAPBOX_SECRET")
 mapbox_style = config("MAPBOX_STYLE")
@@ -120,7 +120,9 @@ def map_national(df):
     return fig
 
 
-def get_map_data(geographicValue, target, startPeriod, endPeriod):
+def get_map_data(geographicValue, target, year, month):
+    startPeriod, endPeriod = utils.parse_dates(year, month)
+
     if geographicValue == 'Department':
         tmp = df[df['target'] == target]
         tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange

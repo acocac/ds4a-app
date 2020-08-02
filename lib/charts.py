@@ -8,6 +8,7 @@ import plotly.express as px
 
 # import local libraries
 from lib import features
+from lib import utils
 
 
 #load data
@@ -52,7 +53,9 @@ def line_Plot(df, geographicValue):
     return fig
 
 
-def getLine(geographicValue, target, states, startPeriod, endPeriod):
+def getLine(geographicValue, target, states, year, month):
+    startPeriod, endPeriod = utils.parse_dates(year, month)
+
     if geographicValue == 'Department':
         tmp = df[(df['depto_establecimiento'].isin(states)) & (df['target'] == target)]
         tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
@@ -102,7 +105,8 @@ def barage_Plot(df, geographicValue):
     return fig
 
 
-def getBarage(geographicValue, target, states, startPeriod, endPeriod):
+def getBarage(geographicValue, target, states, year, month):
+    startPeriod, endPeriod = utils.parse_dates(year, month)
     tmp = df[df['target'] == target]
 
     if geographicValue == 'Department':
@@ -144,7 +148,8 @@ def block_Plot(df, geographicValue):
     return fig
 
 
-def getBlock(geographicValue, target, states, startPeriod, endPeriod):
+def getBlock(geographicValue, target, states, year, month):
+    startPeriod, endPeriod = utils.parse_dates(year, month)
     tmp = df[df['target'] == target]
 
     if geographicValue == 'Department':
@@ -165,9 +170,9 @@ def getBlock(geographicValue, target, states, startPeriod, endPeriod):
 #bar plot object
 def barsentence_Plot(df, geographicValue):
     if geographicValue == 'Department':
-        ttext = f'Sentence Length Distribution in selected {geographicValue}(s)'
+        ttext = f'Sentence Distribution in selected {geographicValue}(s)'
     elif geographicValue == 'National':
-        ttext = f'Sentence Length Distribution in Colombia'
+        ttext = f'Sentence Distribution in Colombia'
 
     fig = px.bar(df, y="sentence_group", x="interno", orientation='h', color_discrete_sequence = ['#cca9dd'])
     fig.update_layout(title=ttext,
@@ -182,7 +187,8 @@ def barsentence_Plot(df, geographicValue):
     return fig
 
 
-def getBarsentence(geographicValue, target, states, startPeriod, endPeriod):
+def getBarsentence(geographicValue, target, states, year, month):
+    startPeriod, endPeriod = utils.parse_dates(year, month)
     tmp = df[df['target'] == target]
 
     if geographicValue == 'Department':
@@ -203,4 +209,3 @@ def getBarsentence(geographicValue, target, states, startPeriod, endPeriod):
     fig = barsentence_Plot(grouped, geographicValue)
     fig.data[0].hovertemplate = '%{label}<br>%{value}'
     return fig
-
