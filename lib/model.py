@@ -1,15 +1,23 @@
+#import data related libraries
 import pandas as pd
 import pickle
-import plotly.graph_objs as go
+
+#import dash related libraries
 import dash_core_components as dcc
 
+# import viz related libraries
+import plotly.graph_objs as go
+
+
 loadModel = pickle.load(open("model/Model_dash.pickle", "rb"))
+
 
 # Predictor Function
 def pred_outputs(x):
     prediction = loadModel.predict(x)
     predictProba = loadModel.predict_proba(x)
     return prediction, predictProba
+
 
 def get_pred(age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5):
     data = pd.DataFrame({'edad': [age],
@@ -39,6 +47,7 @@ def get_pred(age, gender, sentence, study, education, work, intramuros, crimes, 
     return target, "{0:.0%}".format(float(prob))
 
 
+#create VarImp plot
 feature_important = loadModel.get_booster().get_score(importance_type='weight')
 keys = list(feature_important.keys())
 values = list(feature_important.values())
@@ -63,6 +72,7 @@ imp_fig.update_layout(title=f'Variable Importance',
                   )
 
 imp_fig.update_traces(showlegend=False)
+
 
 def plotImp():
     return dcc.Graph(figure=imp_fig, id='Bar1')

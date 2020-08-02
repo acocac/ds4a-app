@@ -6,15 +6,13 @@ from datetime import datetime as dt
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+
+#import local libraries
 from controls import GEOGRAPHIC, POPULATION
 
 
 with open('data/departamentos_col.json') as f:
     DEPTOS = json.loads(f.read())
-
-
-with open('data/departamentos_col.json') as f:
-    MUNIP = json.loads(f.read())
 
 
 geographic_options = [
@@ -23,12 +21,7 @@ geographic_options = [
 
 
 deparmentos_options = [
-    {"label": key, "value": DEPTOS[key]} for key in DEPTOS.keys()
-]
-
-
-municipios_options = [
-    {"label": key, "value": MUNIP[key]} for key in MUNIP.keys()
+    {"label": key, "value": key} for key in DEPTOS.keys()
 ]
 
 
@@ -41,7 +34,7 @@ population_options = [
 DS4A_Img = html.Div(
     children=[
         html.Img(
-            src="assets/ds4a-img.svg",
+            src="assets/logo1.svg",
             # id="ds4a-image",
             style={
                 "height": "auto",
@@ -57,7 +50,7 @@ DS4A_Img = html.Div(
 dropdown = dcc.Dropdown(
     id="state_dropdown",
     options=deparmentos_options,
-    value=["BOG", 'BOY'],
+    value=["BOGOTA D.C.", "ANTIOQUIA"],
     multi=True,
     style={'color': '#242426', 'background-color': '#bfbfbf'}
 )
@@ -71,6 +64,7 @@ date_picker = dcc.DatePickerRange(
     style={'color': '#242426', 'background-color': '#bfbfbf'}
 )
 
+
 geography = dcc.Dropdown(
     id="geographic_dropdown",
     options=geographic_options,
@@ -80,12 +74,14 @@ geography = dcc.Dropdown(
     style={'color': '#242426', 'background-color': '#bfbfbf'}
 )
 
+
 checklist_r = dbc.Select(
     id="target_dropdown",
     options=population_options,
     value=POPULATION['Recidivist'],
     style={'color': '#242426', 'background-color': '#bfbfbf'},
 )
+
 
 def characterization():
     return html.Div(
@@ -94,7 +90,7 @@ def characterization():
         [
             html.Div([DS4A_Img])
         ]),
-        html.Div([
+            html.Div([
             html.Br(),
             html.H5("Target population", style={'color': '#fefefe'}),
             checklist_r,
@@ -120,6 +116,7 @@ clusters_options = [
     {'label': 'CLUSTER {}'.format(d), 'value': d} for d in range(12)
 ]
 
+
 dropdown_network = dcc.Dropdown(
     id="cluster_dropdown",
     options=clusters_options,
@@ -127,6 +124,7 @@ dropdown_network = dcc.Dropdown(
     multi=False,
     style={'color': '#242426', 'background-color': '#bfbfbf'}
 )
+
 
 def network():
     return html.Div(
@@ -161,6 +159,7 @@ cluster1_input = dcc.Input(id='cluster1-input', type='number', min=0, max=1, ste
 cluster4_input = dcc.Input(id='cluster4-input', type='number', min=0, max=1, step=1, value=1)
 cluster5_input = dcc.Input(id='cluster5-input', type='number', min=0, max=1, step=1, value=0)
 
+
 def prediction():
     return html.Div(
     [
@@ -173,91 +172,90 @@ def prediction():
             html.H5("Predict Recidivism", style={'color': '#fefefe'}),
             html.Div(children=[
                 html.Div([
-                    # html.P("Age", className="control_label"),
-                    html.Abbr("Age", title="[min:18, max:100]", className="control_label"),
+                    html.Abbr("Age",
+                              title="[min:18, max:100]",
+                              className="control_label"),
                     age_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Gender", className="control_label"),
-                    html.Abbr("Gender", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Gender",
+                              title="0: Femenino | 1: Masculino",
+                              className="control_label"),
                     gender_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Sentence", className="control_label"),
-                    html.Abbr("Sentence", title="[min:0, max:50]", className="control_label"),
+                    html.Abbr("Sentence",
+                              title="[min:0, max:50]",
+                              className="control_label"),
                     sentence_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Study activities", className="control_label"),
-                    html.Abbr("Study activities", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Study activities",
+                              title="0: Unschooled | 1: Schooled",
+                              className="control_label"),
                     study_input,
                 ], className="flex-display",
                 ),
                 html.Div([
-                    # html.P("Education Level", className="control_label"),
-                    html.Abbr("Education Level", title="[min:0, max:11]", className="control_label"),
+                    html.Abbr("Education Level", title="0: ANALFABETA | 1: CICLO I | 2: CICLO II | 3: CICLO III | 4: CICLO IV | 5: TECNOLOGICO | 6: TECNICO | 7: TECNICO PROFESIONAL | 8: PROFESIONAL | 9: POST GRADO | 10: ESPECIALIZACION | 11: MAGISTER",
+                              className="control_label"),
                     education_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Work Activities", className="control_label"),
-                    html.Abbr("Work Activities", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Work Activities",
+                              title="0: Unemployed | 1: Employed",
+                              className="control_label"),
                     work_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Intramuros state", className="control_label"),
-                    html.Abbr("Intramuros state", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Intramuros state",
+                              title="0: Other (pe. home confinement) | 1: In prison",
+                              className="control_label"),
                     intramuros_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Crimes count", className="control_label"),
                     html.Abbr("Crimes count", title="[min:0, max:20]", className="control_label"),
                     crimes_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Crime(s) Calificado", className="control_label"),
-                    html.Abbr("Crime(s) Calificado", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Crime(s) Calificado",
+                              title="0: No Calificado | 1: Calificado",
+                              className="control_label"),
                     calificado_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Crime(s) Agravado:", className="control_label"),
-                    html.Abbr("Crime(s) Agravado", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Crime(s) Agravado",
+                              title="0: No Agravado | 1: Agravado",
+                              className="control_label"),
                     agravado_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Belongs to crime group 1", className="control_label"),
-                    html.Abbr("Belongs to crime group 1", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Belongs to crime group 1",
+                              title="0: NO pertenece a delitos sexuales y de guerra | 1: SI pertenece a delitos sexuales y de guerra",
+                              className="control_label"),
                     cluster1_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Belongs to crime group 4", className="control_label"),
-                    html.Abbr("Belongs to crime group 4", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Belongs to crime group 4",
+                              title="0: NO pertenece a violencia y delitos menores | 1: SI pertenece a violencia y delitos menores",
+                              className="control_label"),
                     cluster4_input,
                 ], className="flex-display",
                 ),
-                # html.Br(),
                 html.Div([
-                    # html.P("Belongs to crime group 5", className="control_label"),
-                    html.Abbr("Belongs to crime group 5", title="[min:0, max:1]", className="control_label"),
+                    html.Abbr("Belongs to crime group 5",
+                              title="0: NO pertenece a delitos fuertes, homicidio, drogas, armas de fuego | 1: SI pertenece a delitos fuertes, homicidio, drogas, armas de fuego",
+                              className="control_label"),
                     cluster5_input,
                 ], className="flex-display",
                 ),

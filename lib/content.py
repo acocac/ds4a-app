@@ -1,14 +1,10 @@
+# import dash related libraries
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
-from lib import title, sidebar, map, charts, model, tabs
-
-dropdown_type = {
-    "background-color": "white",
-    "fontColor": "white",
-    "font-size": 12,
-}
+# import local libraries
+from lib import sidebar, map, model
 
 
 def build_characterization():
@@ -22,20 +18,26 @@ def build_characterization():
             ]),
             dbc.Row([
                 html.Div([
-                    dcc.Graph(id="characterization-line")
+                    dcc.Graph(id="characterization-barsentence")
                 ],
                     className='col-lg-6 mt-5'
                 ),
                 html.Div([
-                    dcc.Graph(id="characterization-bar")
+                    dcc.Graph(id="characterization-barage")
                 ],
                     className='col-lg-6 mt-5'
+                ),
+                html.Div([
+                    dcc.Graph(id="characterization-line")
+                ],
+                    className='col-xl-12 col-lg-12 mt-5 charts_container'
                 ),
                 html.Div([
                     dcc.Graph(id="characterization-block")
                 ],
                     className='col-xl-12 col-lg-12 mt-5 charts_container'
-                )
+                ),
+                # table.renderTable()
             ])
 
         ])

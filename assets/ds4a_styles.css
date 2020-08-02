@@ -10,15 +10,17 @@
     /*top: 8rem;*/
     padding: 7rem 3rem;
     background-color: #2e2d33;
+    /*position:absolute;*/
 }
 
 .title_wrap {
     background-color: #2e2d33;
-    /*position:relative;*/
+    /*position:absolute;*/
 }
 
 .ds4a-title {
     position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
     height: 60px;
@@ -32,12 +34,17 @@
 
 .sidebar-exploratory {
     position: fixed;
-    left: 0rem;
-    bottom: 8rem;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding-top: 2rem;
+    /*left: 0rem;*/
+    /*bottom: 5rem;*/
     width: 14rem;
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
+    overflow-y: auto;
 }
 
 .sidebar-menu-exploratory {
@@ -47,8 +54,12 @@
 
 .sidebar-network {
     position: fixed;
-    left: 0rem;
-    bottom: 32rem;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding-top: 2rem;
+    /*left: 0rem;*/
+    /*bottom: 32rem;*/
     width: 14rem;
     padding-right: 1rem;
     padding-left: 1rem;
@@ -62,8 +73,12 @@
 
 .sidebar-prediction {
     position: fixed;
-    left: 0rem;
-    bottom: 5rem;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding-top: 2rem;
+    /*left: 0rem;*/
+    /*bottom: 5rem;*/
     width: 14rem;
     padding-right: 1rem;
     padding-left: 1rem;

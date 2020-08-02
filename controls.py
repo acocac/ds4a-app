@@ -1,6 +1,6 @@
 GEOGRAPHIC = dict(
     Department="Department",
-    City="City"
+    National="National"
 )
 
 POPULATION = dict(

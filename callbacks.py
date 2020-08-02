@@ -3,10 +3,7 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
 # import local libraries
-from lib.map import *
-from lib.charts import *
-from lib.cluster import *
-from lib.model import *
+from lib import charts, network, map, model
 
 
 def register_callbacks(app):
@@ -23,7 +20,7 @@ def register_callbacks(app):
         ]
     )
     def update_map(geographicValue, target_dropdown, start_date, end_date):
-        figure = get_map_data(geographicValue, target_dropdown, start_date, end_date)
+        figure = map.get_map_data(geographicValue, target_dropdown, start_date, end_date)
         return [figure]
 
     # callback map interaction
@@ -59,13 +56,15 @@ def register_callbacks(app):
         ]
     )
     def update_line(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
-        figure = getLine(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
+        if None in state_dropdown:
+            state_dropdown = ['BOGOTA D.C.']
+        figure = charts.getLine(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
 
     # callback bar plot
     @app.callback(
         [
-            Output('characterization-bar', 'figure')
+            Output('characterization-barage', 'figure')
         ],
         [
             Input("geographic_dropdown", "value"),
@@ -76,7 +75,28 @@ def register_callbacks(app):
         ]
     )
     def update_bar(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
-        figure = getBar(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
+        if None not in state_dropdown:
+            state_dropdown = ['BOGOTA D.C.']
+        figure = charts.getBarage(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
+        return [figure]
+
+    # callback bar plot
+    @app.callback(
+        [
+            Output('characterization-barsentence', 'figure')
+        ],
+        [
+            Input("geographic_dropdown", "value"),
+            Input("target_dropdown", "value"),
+            Input("state_dropdown", "value"),
+            Input("date_picker", "start_date"),
+            Input("date_picker", "end_date")
+        ]
+    )
+    def update_barsentence(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
+        if None not in state_dropdown:
+            state_dropdown = ['BOGOTA D.C.']
+        figure = charts.getBarsentence(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
 
     # callback block plot
@@ -93,7 +113,9 @@ def register_callbacks(app):
         ]
     )
     def update_block(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
-        figure = getBlock(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
+        if None not in state_dropdown:
+            state_dropdown = ['BOGOTA D.C.']
+        figure = charts.getBlock(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
         return [figure]
 
     # callback network
@@ -101,7 +123,7 @@ def register_callbacks(app):
         [Output('cluster_plot', 'figure')],
         [Input('cluster_dropdown', 'value')])
     def update_crime(cluster):
-        figure = get_nplot(cluster)
+        figure = network.get_nplot(cluster)
         return [figure]
 
     # callback prediction
@@ -124,5 +146,5 @@ def register_callbacks(app):
          State('cluster5-input', 'value')
          ])
     def update_output(n_clicks, age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5):
-        target, probability = get_pred(age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5)
+        target, probability = model.get_pred(age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5)
         return [target, probability]
