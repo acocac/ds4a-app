@@ -44,6 +44,6 @@ The user can explore the main findings of the project by navigating in three Tab
 
 #### Prediction  
 
-It allows to predict if a individual will commmit crime again or not according to the XGBoost model calibrated with 13 variables.   
+* The prediction tab was built to give the user predictions of the probability of a convict to be recidivist/non recidivist.
 
 <img src="https://github.com/acocac/ds4a-app/tree/master/img/dash_prediction.png" width="600"  style="margin:auto; width:70%; padding:10px;">
