@@ -1,6 +1,5 @@
 # import data related libraries
 import json
-from datetime import datetime as dt
 
 # import dash related libraries
 import dash_core_components as dcc
@@ -13,6 +12,10 @@ from controls import GEOGRAPHIC, POPULATION
 with open('data/departamentos_col.json') as f:
     DEPTOS = json.loads(f.read())
 
+population_options = [
+    {"label": str(POPULATION[pop]), "value": str(pop)} for pop in POPULATION
+]
+
 geographic_options = [
     {"label": str(GEOGRAPHIC[geo]), "value": str(geo)} for geo in GEOGRAPHIC
 ]
@@ -21,11 +24,7 @@ deparmentos_options = [
     {"label": key, "value": key} for key in DEPTOS.keys()
 ]
 
-population_options = [
-    {"label": str(POPULATION[pop]), "value": str(pop)} for pop in POPULATION
-]
-
-# logo
+##logo
 DS4A_Img = html.Div(
     children=[
         html.Img(
@@ -40,46 +39,15 @@ DS4A_Img = html.Div(
     ],
 )
 
+
 ##filters exploratory
-dropdown = dcc.Dropdown(
-    id="state_dropdown",
-    options=deparmentos_options,
-    value=["BOGOTA D.C.", "ANTIOQUIA"],
-    multi=True,
-    style={'color': '#242426', 'background-color': '#bfbfbf'}
-)
-
-# date_picker = dcc.DatePickerRange(
-#     id='date_picker',
-#     min_date_allowed=dt(2010, 1, 2),
-#     max_date_allowed=dt(2020, 5, 31),
-#     start_date=dt(2010, 1, 1).date(),
-#     end_date=dt(2020, 1, 1).date(),
-#     style={'color': '#242426', 'background-color': '#bfbfbf'}
-# )
-
-# geography = dcc.Dropdown(
-#     id="geographic_dropdown",
-#     options=geographic_options,
-#     multi=False,
-#     value=GEOGRAPHIC['Department'],
-#     clearable=False,
-#     style={'color': '#242426', 'background-color': '#bfbfbf'}
-# )
-
-geography = dbc.Select(
-    id="geographic_dropdown",
-    options=geographic_options,
-    value=GEOGRAPHIC['Department'],
-    style={'color': '#242426', 'background-color': '#bfbfbf'},
-)
-
-checklist_r = dbc.Select(
-    id="target_dropdown",
-    options=population_options,
-    value=POPULATION['Recidivist'],
-    style={'color': '#242426', 'background-color': '#bfbfbf'},
-)
+def target():
+    return dbc.Select(
+        id="target_dropdown",
+        options=population_options,
+        value=POPULATION['Recidivist'],
+        style={'color': '#242426', 'background-color': '#bfbfbf'},
+    )
 
 
 def year_slider():
@@ -102,18 +70,38 @@ def month_slider():
     )
 
 
-dates_slider = html.Div(
-    [
-        # Year Slider
-        html.P("Filter by year:", className="slider_title"),
-        html.Div(id='year_range'),
-        year_slider(),
-        # Month Slider
-        html.P("Filter by month:", className="slider_title"),
-        html.Div(id='month_range'),
-        month_slider(),
-    ]
-)
+def dates_slider():
+    return html.Div(
+        [
+            # Year Slider
+            html.P("Filter by year:", className="slider_title"),
+            html.Div(id='year_range'),
+            year_slider(),
+            # Month Slider
+            html.P("Filter by month:", className="slider_title"),
+            html.Div(id='month_range'),
+            month_slider(),
+        ]
+    )
+
+
+def geography():
+    return dbc.Select(
+        id="geographic_dropdown",
+        options=geographic_options,
+        value=GEOGRAPHIC['Department'],
+        style={'color': '#242426', 'background-color': '#bfbfbf'},
+    )
+
+
+def dropdown_depto():
+    return dcc.Dropdown(
+        id="state_dropdown",
+        options=deparmentos_options,
+        value=["BOGOTA D.C.", "ANTIOQUIA"],
+        multi=True,
+        style={'color': '#242426', 'background-color': '#bfbfbf'}
+    )
 
 
 def characterization():
@@ -126,17 +114,16 @@ def characterization():
             html.Div([
                 html.Br(),
                 html.H5("Target population", style={'color': '#fefefe'}),
-                checklist_r,
+                target(),
                 html.Hr(),
                 html.H5("Select dates", style={'color': '#fefefe'}),
-                dates_slider,
-                html.Hr(),
+                dates_slider(),
                 html.H5("Geographic level", style={'color': '#fefefe'}),
-                geography,
+                geography(),
                 html.Br(),
                 html.Br(),
                 html.H5("Select", style={'color': '#fefefe'}),
-                dropdown,
+                dropdown_depto(),
             ],
                 className='sidebar-menu-exploratory'
             ),
@@ -150,11 +137,11 @@ clusters_options = [
 ]
 
 dropdown_network = dcc.Dropdown(
-    id="cluster_dropdown",
+    id='cluster_dropdown',
     options=clusters_options,
     value=4,
     multi=False,
-    style={'color': '#242426', 'background-color': '#bfbfbf'}
+    style={'color': '#242426', 'background-color': '#bfbfbf'},
 )
 
 
@@ -169,6 +156,12 @@ def network():
                 html.Br(),
                 html.H5("Cluster", style={'color': '#fefefe'}),
                 dropdown_network,
+                html.Br(),
+                html.Hr(),
+                html.H5("Interpretation", style={'color': '#fefefe'}),
+                html.Div([html.Label(
+                    "Each network describes a group of similar crimes where each point represents a crime, and the points it is connected to represent the crimes that have the highest probability of being committed by a recidivist after his/her release")
+                ], className='control_label')
             ],
                 className='sidebar-menu-network'
             )
@@ -178,15 +171,11 @@ def network():
 
 ##filters prediction
 def age_input():
-    return html.Div([
-                dcc.Slider(id='edad-slider', min=18, max=100, step=1, value=30)
-            ], style={'marginBottom': '0em'})
+    return dcc.Slider(id='edad-slider', min=18, max=100, step=1, value=30)
 
 
 def gender_input():
-    return html.Div([
-                dcc.Slider(id='genero-slider', min=0, max=1, step=1, value=1)
-    ], style={'marginBottom': '0em'})
+    return dcc.Slider(id='genero-slider', min=0, max=1, step=1, value=1)
 
 
 def sentence_input():
@@ -215,7 +204,7 @@ def work_input():
 
 def intramuros_input():
     return html.Div([
-         dcc.Slider(id='intramuros-slider', min=0, max=1, step=1, value=1)
+        dcc.Slider(id='intramuros-slider', min=0, max=1, step=1, value=1)
     ], style={'marginBottom': '0em'})
 
 
@@ -255,36 +244,37 @@ def cluster5_input():
     ], style={'marginBottom': '0em'})
 
 
-predictors_slider = dbc.Col([
-        html.Label(id='edad-range'),
-        age_input(),
-        html.Label(id='genero-range'),
-        gender_input(),
-        html.Label(id='sentencia-range'),
-        sentence_input(),
-        html.Label(id='estudio-range'),
-        study_input(),
-        html.Label(id='education-range'),
-        education_input(),
-        html.Label(id='trabajo-range'),
-        work_input(),
-        html.Label(id='intramuros-range'),
-        intramuros_input(),
-        html.Label(id='delitos-range'),
-        crimes_input(),
-        html.Label(id='calificado-range'),
-        calificado_input(),
-        html.Label(id='agravado-range'),
-        agravado_input(),
-        html.Label(id='cluster1-range'),
-        cluster1_input(),
-        html.Label(id='cluster4-range'),
-        cluster4_input(),
-        html.Label(id='cluster5-range'),
-        cluster5_input()
-    ],
+predictors_slider = html.Div([
+    html.Label(id='edad-range'),
+    age_input(),
+    html.Label(id='genero-range'),
+    gender_input(),
+    html.Label(id='sentencia-range'),
+    sentence_input(),
+    html.Label(id='estudio-range'),
+    study_input(),
+    html.Label(id='education-range'),
+    education_input(),
+    html.Label(id='trabajo-range'),
+    work_input(),
+    html.Label(id='intramuros-range'),
+    intramuros_input(),
+    html.Label(id='delitos-range'),
+    crimes_input(),
+    html.Label(id='calificado-range'),
+    calificado_input(),
+    html.Label(id='agravado-range'),
+    agravado_input(),
+    html.Label(id='cluster1-range'),
+    cluster1_input(),
+    html.Label(id='cluster4-range'),
+    cluster4_input(),
+    html.Label(id='cluster5-range'),
+    cluster5_input()
+],
     className='sliders-prediction',
 )
+
 
 def prediction():
     return html.Div(
@@ -293,12 +283,15 @@ def prediction():
             [
                 html.Div([DS4A_Img])
             ]),
+            html.Br(),
             html.Div([
-                html.H5("Set Predictors", style={'color': '#fefefe'}),
-                predictors_slider,
                 html.Div([
                     html.Button('Predict', id='buttonPredict', className='btn btn-primary')
-                ])
+                ]),
+                html.Br(),
+                html.H5("Set Predictors", style={'color': '#fefefe'}),
+                predictors_slider,
+                html.Br(),
             ],
                 className='sidebar-menu-prediction'
             ),

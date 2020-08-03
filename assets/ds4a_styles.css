@@ -5,10 +5,10 @@
 }
 
 .ds4a-body {
-    margin-left: 14rem;
+    margin-left: 17rem;
     margin-right: 0rem;
     /*top: 8rem;*/
-    padding: 7rem 3rem;
+    padding: 7rem 2rem;
     background-color: #2e2d33;
     /*position:absolute;*/
 }
@@ -40,7 +40,7 @@
     padding-top: 2rem;
     /*left: 0rem;*/
     /*bottom: 5rem;*/
-    width: 14rem;
+    width: 17rem;
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
@@ -60,7 +60,7 @@
     padding-top: 2rem;
     /*left: 0rem;*/
     /*bottom: 32rem;*/
-    width: 14rem;
+    width: 17rem;
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
@@ -79,11 +79,10 @@
     padding-top: 2rem;
     /*left: 0rem;*/
     /*bottom: 5rem;*/
-    width: 14rem;
+    width: 17rem;
     padding-right: 1rem;
     padding-left: 1rem;
     background-color: #4b4952;
-    justify-content: right;
 }
 
 .sidebar-menu-prediction {
@@ -190,6 +189,7 @@
 }
 
 .sliders-prediction{
-    top: 0;
-    margin: 0rem;
+    height: 30rem;
+    overflow-y: auto;
+    margin-bottom: 5px;
 }
