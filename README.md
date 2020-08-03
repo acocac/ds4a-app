@@ -27,10 +27,13 @@ The user can explore the main findings of the project by navigating in three Tab
 * This section provides useful information that will allow the user to better understand the characteristics of the recidivist and non recidivist population across the country.
 
 *CHARACTERIZATION - DEPARTMENT LEVEL*  
-![char_depto](img/dash_characterization_depto.png)
+![char_depto-map](img/dash_characterization_depto-map.png)
+![char_depto-map](img/dash_characterization_depto-time.png)
+![char_depto-map](img/dash_characterization_depto-block.png)
 
 *CHARACTERIZATION - NATIONAL LEVEL*  
-![char_national](img/dash_characterization_national.png)
+![char_national-map](img/dash_characterization_national-map.png)
+![char_national-line](img/dash_characterization_national-time.png)
 
 #### Crime network  
 * This section allows the user to explore the clusters that were created during the feature engineering of this project:
@@ -44,3 +47,9 @@ The user can explore the main findings of the project by navigating in three Tab
 * The prediction tab was built to give the user predictions of the probability of a convict to be recidivist/non recidivist.
 
 ![prediction](img/dash_prediction.png)
+
+### Documentation
+A detailed step by step guide is under preparation. Meanwhile, the folder notebooks and report (see `notebooks` and `report`) contain jupyter notebook files of the EDA and modeling exercises and the final report delivered as part of this challenge.
+
+### Acknowledgements
+The team acknowledges MinJusticia for providing the database analysed in this challenge. This development would not have been possible without the assistance of multiple organizations including MinTIC and CorrelationOne.
