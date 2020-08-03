@@ -27,23 +27,20 @@ The user can explore the main findings of the project by navigating in three Tab
 * This section provides useful information that will allow the user to better understand the characteristics of the recidivist and non recidivist population across the country.
 
 *CHARACTERIZATION - DEPARTMENT LEVEL*  
-
-<img src="https://github.com/acocac/ds4a-app/tree/master/img/dash_characterization_depto.png" width="600"  style="margin:auto; width:70%; padding:10px;">
+![char_depto](img/dash_characterization_depto.png)
 
 *CHARACTERIZATION - NATIONAL LEVEL*  
-
-<img src="https://github.com/acocac/ds4a-app/tree/master/img/dash_characterization_national.png" width="600"  style="margin:auto; width:70%; padding:10px;">
+![char_national](img/dash_characterization_national.png)
 
 #### Crime network  
 * This section allows the user to explore the clusters that were created during the feature engineering of this project:
 * It allows to explore cluster derived from a network graph analysis targeting the offenses types.  
 * Selecting a cluster from the drop down menu, will show the user the network of the crimes that a re linked together. The color of the link indicates how strong is the relationship between both crimes.
 
-<img src="https://github.com/acocac/ds4a-app/tree/master/img/dash_network.png" width="600"  style="margin:auto; width:70%; padding:10px;">
-
+![crimes](img/dash_network.png)
 
 #### Prediction  
 
 * The prediction tab was built to give the user predictions of the probability of a convict to be recidivist/non recidivist.
 
-<img src="https://github.com/acocac/ds4a-app/tree/master/img/dash_prediction.png" width="600"  style="margin:auto; width:70%; padding:10px;">
+![prediction](img/dash_prediction.png)
