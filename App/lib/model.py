@@ -5,16 +5,18 @@ import pickle
 #import dash related libraries
 import dash_core_components as dcc
 
-# import viz related libraries
+#import viz related libraries
 import plotly.graph_objs as go
 
 #import local libraries
 from controls import IMPVARIABLES
 
+
+#load model
 loadModel = pickle.load(open("model/Model_dash.pickle", "rb"))
 
 
-# Predictor Function
+#predictor function
 def pred_outputs(x):
     prediction = loadModel.predict(x)
     predictProba = loadModel.predict_proba(x)

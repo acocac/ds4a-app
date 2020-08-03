@@ -9,6 +9,7 @@ POPULATION = dict(
     Nonrecidivist="Non-recidivist"
 )
 
+
 #exploratory date sliders
 range_year = range(2000,2021)
 
@@ -21,6 +22,7 @@ range_month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "O
 MONTHS = {}
 for i,each in enumerate(range_month):
     MONTHS[i+1] = each
+
 
 # #clusters
 CLUSTERS = {0: 'Acts involving fraud, deception, or corruption',
@@ -36,6 +38,7 @@ CLUSTERS = {0: 'Acts involving fraud, deception, or corruption',
  10: 'Acts related to natural resources and chemical substances',
  11: 'Drug trafficking'}
 
+
 #categorical prediction vars
 GENDER = {0: "Female", 1: "Male"}
 STUDY = {0: "Unschooled", 1: "Schooled"}
@@ -47,6 +50,7 @@ AGRAVADO = {0: "No Agravado", 1: "Agravado"}
 CLUSTER1 = {0: "NO delitos sexuales/guerra", 1: "SI delitos sexuales/guerra"}
 CLUSTER4 = {0: "NO violencia/delitos menores", 1: "SI violencia/delitos menores"}
 CLUSTER5 = {0: "NO delitos fuertes/homicidio/drogas/armas de fuego", 1: "SI delitos fuertes/homicidio/drogas/armas de fuego"}
+
 
 #top predictors
 IMPVARIABLES = {'CLUSTER_4': 'Belongs to crime group 4',

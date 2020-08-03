@@ -1,7 +1,5 @@
-#import data related libraries
+# import data related libraries
 import pandas as pd
-from sqlalchemy import create_engine
-from decouple import config
 
 # import viz related libraries
 import plotly.express as px
@@ -10,18 +8,16 @@ import plotly.express as px
 from lib import features
 from lib import utils
 
+# load data
+# engine = create_engine(config('DATABASE_URL'))
+# df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
+df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso'])  # if local > faster loading
 
-#load data
-#engine = create_engine(config('DATABASE_URL'))
-#df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
-df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
-
-
-#add new features
+# add new features
 df = features.add_features(df)
 
 
-#line plot object
+# line plot object
 def line_Plot(df, geographicValue):
     if geographicValue == 'Department':
         ttext = f'Monthly convicts in selected selected {geographicValue}(s)'
@@ -58,12 +54,14 @@ def getLine(geographicValue, target, states, year, month):
 
     if geographicValue == 'Department':
         tmp = df[(df['depto_establecimiento'].isin(states)) & (df['target'] == target)]
-        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)] # filter dataset by the daterange
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (
+                    tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
         tmp = tmp.groupby(['interno', 'depto_establecimiento', 'Ingreso_Month']).count().reset_index()
         grouped = tmp.groupby(['depto_establecimiento', 'Ingreso_Month']).count().reset_index()
     elif geographicValue == 'National':
         tmp = df[df['target'] == target]
-        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (
+                    tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
         grouped = tmp.groupby(['Ingreso_Month']).count().reset_index()  # count unique convict ID
         grouped['national'] = "Colombia"
 
@@ -75,14 +73,15 @@ def getLine(geographicValue, target, states, year, month):
     return fig
 
 
-#bar plot object
+# bar plot object
 def barage_Plot(df, geographicValue):
     if geographicValue == 'Department':
         ttext = f'Demographics Distribution in selected {geographicValue}(s)'
     elif geographicValue == 'National':
         ttext = f'Demographics Distribution in Colombia'
 
-    fig = px.bar(df, y="age_range", x="interno", color='genero', orientation='h', color_discrete_sequence = ['#0075ee','#00b6cb'])
+    fig = px.bar(df, y="age_range", x="interno", color='genero', orientation='h',
+                 color_discrete_sequence=['#0075ee', '#00b6cb'])
 
     fig.update_layout(title=ttext,
                       paper_bgcolor="#2c2f38",
@@ -112,10 +111,12 @@ def getBarage(geographicValue, target, states, year, month):
     if geographicValue == 'Department':
         targetgeo = "depto_establecimiento"
         tmp = tmp[tmp['depto_establecimiento'].isin(states)]
-        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (
+                    tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
         tmp = tmp[["interno", "edad", "genero", targetgeo]]
     elif geographicValue == 'National':
-        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (
+                    tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
         tmp = tmp[["interno", "edad", "genero"]]
 
     tmp.drop_duplicates(subset="interno", keep='first', inplace=True)
@@ -131,14 +132,14 @@ def getBarage(geographicValue, target, states, year, month):
     return fig
 
 
-#bar plot object
+# block plot object
 def block_Plot(df, geographicValue):
     if geographicValue == 'Department':
         ttext = f'Top 50 offenses types in the selected {geographicValue}(s)'
     elif geographicValue == 'National':
         ttext = f'Top 50 offenses types in Colombia'
 
-    fig = px.treemap(df, path=['delito'], values='count', color_discrete_sequence = px.colors.sequential.Plotly3)
+    fig = px.treemap(df, path=['delito'], values='count', color_discrete_sequence=px.colors.sequential.Plotly3)
     fig.data[0].hovertemplate = '%{label}<br>Record Count: %{value}'
     fig.update_layout(title=ttext,
                       # template="plotly_dark",
@@ -155,10 +156,10 @@ def getBlock(geographicValue, target, states, year, month):
     if geographicValue == 'Department':
         tmp = tmp[tmp['depto_establecimiento'].isin(states)]
 
-    tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
-    # tmp = tmp[["interno", "delito", "fecha_ingreso", "regional", targetgeo]].copy()
+    tmp = tmp[
+        (tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
     grouped = tmp.groupby(["delito"]).size().reset_index(name="count").sort_values(by="count", ascending=False)
-    
+
     if grouped.shape[0] > 50:
         grouped = grouped.iloc[:50]
     else:
@@ -167,14 +168,15 @@ def getBlock(geographicValue, target, states, year, month):
     fig = block_Plot(grouped, geographicValue)
     return fig
 
-#bar plot object
+
+# bar plot object
 def barsentence_Plot(df, geographicValue):
     if geographicValue == 'Department':
         ttext = f'Sentence Distribution in selected {geographicValue}(s)'
     elif geographicValue == 'National':
         ttext = f'Sentence Distribution in Colombia'
 
-    fig = px.bar(df, y="sentence_group", x="interno", orientation='h', color_discrete_sequence = ['#cca9dd'])
+    fig = px.bar(df, y="sentence_group", x="interno", orientation='h', color_discrete_sequence=['#cca9dd'])
     fig.update_layout(title=ttext,
                       paper_bgcolor="#2c2f38",
                       plot_bgcolor='#2c2f38',
@@ -194,15 +196,17 @@ def getBarsentence(geographicValue, target, states, year, month):
     if geographicValue == 'Department':
         targetgeo = "depto_establecimiento"
         tmp = tmp[tmp['depto_establecimiento'].isin(states)]
-        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (
+                    tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
         tmp = tmp[["interno", "sentencia", targetgeo]]
     elif geographicValue == 'National':
-        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
+        tmp = tmp[(tmp['Ingreso_Month'] >= startPeriod) & (
+                    tmp['Ingreso_Month'] < endPeriod)]  # filter dataset by the daterange
         tmp = tmp[["interno", "sentencia"]]
 
     tmp.drop_duplicates(subset="interno", keep='first', inplace=True)
     tmp = tmp.reset_index(drop=True)
-    bins = range(0,13)
+    bins = range(0, 13)
     labels = range(1, 13, 1)
     tmp['sentence_group'] = pd.cut(tmp.sentencia, bins, labels=labels, include_lowest=True)
     grouped = tmp.groupby(["sentence_group"])["interno"].count().reset_index().sort_values("sentence_group")

@@ -24,23 +24,21 @@ deparmentos_options = [
     {"label": key, "value": key} for key in DEPTOS.keys()
 ]
 
-##logo
-DS4A_Img = html.Div(
+# logo
+logo_img = html.Div(
     children=[
         html.Img(
             src="assets/logo1.svg",
-            # id="ds4a-image",
             style={
                 "height": "auto",
                 "width": "auto",
-                # "margin-bottom": "10px",
             }
         )
     ],
 )
 
 
-##filters exploratory
+# filters exploratory
 def target():
     return dbc.Select(
         id="target_dropdown",
@@ -109,7 +107,7 @@ def characterization():
         [
             html.Div(children=
             [
-                html.Div([DS4A_Img])
+                html.Div([logo_img])
             ]),
             html.Div([
                 html.Br(),
@@ -131,18 +129,21 @@ def characterization():
     )
 
 
-##filters cluster
+# filters cluster
 clusters_options = [
     {'label': 'CLUSTER {}'.format(d), 'value': d} for d in range(12)
 ]
 
-dropdown_network = dcc.Dropdown(
-    id='cluster_dropdown',
-    options=clusters_options,
-    value=4,
-    multi=False,
-    style={'color': '#242426', 'background-color': '#bfbfbf'},
-)
+
+def dropdown_network():
+    return dcc.Dropdown(
+        id='cluster_dropdown',
+        options=clusters_options,
+        value=4,
+        multi=False,
+        clearable=False,
+        style={'color': '#242426', 'background-color': '#bfbfbf'},
+    )
 
 
 def network():
@@ -150,12 +151,12 @@ def network():
         [
             html.Div(children=
             [
-                html.Div([DS4A_Img])
+                html.Div([logo_img])
             ]),
             html.Div([
                 html.Br(),
                 html.H5("Cluster", style={'color': '#fefefe'}),
-                dropdown_network,
+                dropdown_network(),
                 html.Br(),
                 html.Hr(),
                 html.H5("Interpretation", style={'color': '#fefefe'}),
@@ -169,7 +170,7 @@ def network():
     )
 
 
-##filters prediction
+# filters prediction
 def age_input():
     return dcc.Slider(id='edad-slider', min=18, max=100, step=1, value=30)
 
@@ -281,7 +282,7 @@ def prediction():
         [
             html.Div(children=
             [
-                html.Div([DS4A_Img])
+                html.Div([logo_img])
             ]),
             html.Br(),
             html.Div([

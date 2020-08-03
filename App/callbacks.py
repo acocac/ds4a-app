@@ -1,20 +1,16 @@
-# import dash related libraries
+#import dash related libraries
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import dash_html_components as html
 
-# import local libraries
-from lib import charts, network, map, model
+#import local libraries
+from lib import map, model
+from lib import network, charts
 from controls import CLUSTERS, YEARS, MONTHS, GENDER, STUDY, EDUCATION, WORK, INTRAMUROS, CALIFICADO, AGRAVADO, CLUSTER1, CLUSTER4, CLUSTER5
 
-import networkx as nx
-import plotly.graph_objects as go
-
-distance = network.get_network_data()
-complete_graph = nx.from_pandas_adjacency(distance)
 
 def register_callbacks(app):
-    # callback update_map
+    #callback update_map
     @app.callback(
         [
             Output('map', 'figure'),
@@ -30,7 +26,7 @@ def register_callbacks(app):
         figure = map.get_map_data(geographicValue, target_dropdown, year, month)
         return [figure]
 
-    # callback map interaction
+    #callback map interaction
     @app.callback(
         Output('state_dropdown', 'value'),
         [
@@ -49,7 +45,7 @@ def register_callbacks(app):
 
         return state
 
-    # callback line plot
+    #callback line plot
     @app.callback(
         [
             Output('characterization-line', 'figure')
@@ -68,7 +64,7 @@ def register_callbacks(app):
         figure = charts.getLine(geographicValue, target_dropdown, state_dropdown, year, month)
         return [figure]
 
-    # callback bar plot
+    #callback bar plot
     @app.callback(
         [
             Output('characterization-barage', 'figure')
@@ -87,7 +83,7 @@ def register_callbacks(app):
         figure = charts.getBarage(geographicValue, target_dropdown, state_dropdown, year, month)
         return [figure]
 
-    # callback bar plot
+    #callback bar plot
     @app.callback(
         [
             Output('characterization-barsentence', 'figure')
@@ -106,7 +102,7 @@ def register_callbacks(app):
         figure = charts.getBarsentence(geographicValue, target_dropdown, state_dropdown, year, month)
         return [figure]
 
-    # callback block plot
+    #callback block plot
     @app.callback(
         [
             Output('characterization-block', 'figure')
@@ -125,22 +121,16 @@ def register_callbacks(app):
         figure = charts.getBlock(geographicValue, target_dropdown, state_dropdown, year, month)
         return [figure]
 
-    # callback network
+    #callback network
     @app.callback(
         Output('cluster_plot', 'figure'),
         [Input('cluster_dropdown', 'value')])
     def update_crime(cluster):
         title = CLUSTERS[cluster]
-        return go.Figure(network.network_plot(cluster, complete_graph, title))
-    #
-    # @app.callback(
-    #     Output('cluster_plot', 'figure'),
-    #     [Input('cluster_dropdown', 'value')])
-    # def update_crime(cluster):
-    #     figure = network.get_nplot(cluster)
-    #     return [figure]
+        figure = network.get_nplot(cluster, title)
+        return figure
 
-    # callback prediction
+    #callback prediction
     @app.callback(
         [Output('outputTarget', 'children'),
          Output('outputProbability', 'children')],
@@ -163,7 +153,7 @@ def register_callbacks(app):
         target, probability = model.get_pred(age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5)
         return [target, probability]
 
-    # callback slider years
+    #callback slider years
     @app.callback(
         Output('year_range', 'children'),
         [
@@ -182,7 +172,7 @@ def register_callbacks(app):
             )
         ]
 
-    # callback slider months
+    #callback slider months
     @app.callback(
         Output('month_range', 'children'),
         [
@@ -201,7 +191,7 @@ def register_callbacks(app):
             )
         ]
 
-    # callback slider predictors
+    #callback slider predictors
     @app.callback(
         [
             Output('edad-range', 'children'),

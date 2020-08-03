@@ -8,6 +8,7 @@ import numpy as np
 with open('data/departamentos_col.json') as f:
     states_dict = json.loads(f.read())
 
+
 def add_features(df):
     #dates
     df['Ingreso_Month'] = pd.to_datetime(df['fecha_ingreso'].map(lambda x: "{}-{}".format(x.year, x.month)))
@@ -29,4 +30,3 @@ def add_features(df):
     df['target'] = df['reincidente'].replace({0: 'Recidivist', 1: 'Nonrecidivist'})
 
     return df
-

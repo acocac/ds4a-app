@@ -50,5 +50,14 @@ This section was built to give the user predictions of the probability of a conv
 ### Documentation
 A detailed step by step guide is under preparation. Meanwhile, the folder notebooks and report (see `notebooks` and `report`) contain jupyter notebook files of the EDA and modeling exercises and the final report delivered as part of this challenge.
 
+### Getting started
+Anaconda environment
+```
+conda env create -f environment.yaml
+conda activate project_DS4A
+cd /ds4a-app/App
+python app.py
+```
+
 ### Acknowledgements
 The team acknowledges MinJusticia for providing the database analysed in this challenge. This development would not have been possible without the assistance of multiple organizations including MinTIC and CorrelationOne.

@@ -1,7 +1,6 @@
 #import data related libraries
 import json
 import pandas as pd
-from sqlalchemy import create_engine
 from decouple import config
 
 #import dash related libraries
@@ -14,6 +13,7 @@ import plotly.express as px
 #import local libraries
 from lib import features
 from lib import utils
+
 
 mapbox_token = config("MAPBOX_SECRET")
 mapbox_style = config("MAPBOX_STYLE")
@@ -49,7 +49,7 @@ def map():
     )
 
 
-###departamentos
+#departamentos
 def map_departamentos(df):
 
     _min = min(df['normalized_count'])
@@ -88,7 +88,7 @@ def map_departamentos(df):
     return fig
 
 
-##
+#national
 def map_national(df):
     fig = px.choropleth_mapbox(df,
                                locations='National',

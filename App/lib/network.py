@@ -7,7 +7,7 @@ import networkx as nx
 import numpy as np
 from decouple import config
 
-# import viz related libraries
+#import viz related libraries
 import plotly.graph_objects as go
 
 
@@ -120,14 +120,14 @@ def network_plot(cluster, complete_graph, title):
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
 
     return dict(data=traces, layout=layout)
-#
-#
-# distance = get_network_data()
-#
-#
-# complete_graph = nx.from_pandas_adjacency(distance)
-#
-#
-# def get_nplot(cluster):
-#     fig = go.Figure(network_plot(cluster, complete_graph))
-#     return fig
+
+
+distance = get_network_data()
+
+
+complete_graph = nx.from_pandas_adjacency(distance)
+
+
+def get_nplot(cluster, title):
+    fig = go.Figure(network_plot(cluster, complete_graph, title))
+    return fig

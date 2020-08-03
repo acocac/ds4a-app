@@ -1,10 +1,11 @@
-# import dash related libraries
+#import dash related libraries
 import dash_core_components as dcc
 
-# import local libraries
+#import local libraries
 from lib import content
 
 
+#build tabs
 def build_tabs():
     return dcc.Tabs(id='tabs-header', value='tab-1', parent_className='custom-tabs', className='custom-tabs-container',
                     children=[

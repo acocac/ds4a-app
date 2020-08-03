@@ -1,12 +1,13 @@
-# import dash related libraries
+#import dash related libraries
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
-# import local libraries
+#import local libraries
 from lib import sidebar, map, model
 
 
+#characterization tab
 def build_characterization():
     return [
         html.Div([
@@ -43,6 +44,7 @@ def build_characterization():
     ]
 
 
+#network tab
 def build_network():
     return [
         html.Div([
@@ -60,6 +62,7 @@ def build_network():
     ]
 
 
+#prediction tab
 def build_prediction():
     return [
         html.Div([
