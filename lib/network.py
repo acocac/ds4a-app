@@ -42,7 +42,7 @@ def make_blue(alpha):
     return (scaled, scaled, 255)
 
 
-def network_plot(cluster, complete_graph):
+def network_plot(cluster, complete_graph, title):
     isolates = list(nx.isolates(complete_graph))
     complete_graph.remove_nodes_from(isolates)
     msp_graph = nx.algorithms.tree.mst.minimum_spanning_tree(complete_graph, weight='weight')
@@ -107,9 +107,10 @@ def network_plot(cluster, complete_graph):
     traces = edges_list + [node_trace]
 
     layout = go.Layout(
-        # title='<br>Redes de Reincidencia',
+        title=title,
         # titlefont_size=16,
         # template='plotly_white',
+        font=dict(color="white"),
         paper_bgcolor="#2c2f38",
         plot_bgcolor='#2c2f38',
         showlegend=False,
@@ -119,14 +120,14 @@ def network_plot(cluster, complete_graph):
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
 
     return dict(data=traces, layout=layout)
-
-
-distance = get_network_data()
-
-
-complete_graph = nx.from_pandas_adjacency(distance)
-
-
-def get_nplot(cluster):
-    fig = go.Figure(network_plot(cluster, complete_graph))
-    return fig
+#
+#
+# distance = get_network_data()
+#
+#
+# complete_graph = nx.from_pandas_adjacency(distance)
+#
+#
+# def get_nplot(cluster):
+#     fig = go.Figure(network_plot(cluster, complete_graph))
+#     return fig

@@ -7,7 +7,7 @@ data/*.csv*
 model
 
 #notebooks
-*.ipynb
+#*.ipynb
 .ipynb_checkpoints
 
 #others

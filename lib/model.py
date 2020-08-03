@@ -50,8 +50,8 @@ def get_pred(age, gender, sentence, study, education, work, intramuros, crimes, 
 
 
 #create VarImp plot
-# feature_important = loadModel.get_booster().get_score(importance_type='weight')
-feature_important = loadModel.get_booster().get_fscore()
+feature_important = loadModel.get_booster().get_score(importance_type='weight')
+# feature_important = loadModel.get_booster().get_fscore()
 keys = list(feature_important.keys())
 values = list(feature_important.values())
 keys_rename = list(map(IMPVARIABLES.get, keys))

@@ -5,8 +5,13 @@ import dash_html_components as html
 
 # import local libraries
 from lib import charts, network, map, model
-from controls import YEARS, MONTHS
+from controls import CLUSTERS, YEARS, MONTHS, GENDER, STUDY, EDUCATION, WORK, INTRAMUROS, CALIFICADO, AGRAVADO, CLUSTER1, CLUSTER4, CLUSTER5
 
+import networkx as nx
+import plotly.graph_objects as go
+
+distance = network.get_network_data()
+complete_graph = nx.from_pandas_adjacency(distance)
 
 def register_callbacks(app):
     # callback update_map
@@ -122,30 +127,37 @@ def register_callbacks(app):
 
     # callback network
     @app.callback(
-        [Output('cluster_plot', 'figure')],
+        Output('cluster_plot', 'figure'),
         [Input('cluster_dropdown', 'value')])
     def update_crime(cluster):
-        figure = network.get_nplot(cluster)
-        return [figure]
+        title = CLUSTERS[cluster]
+        return go.Figure(network.network_plot(cluster, complete_graph, title))
+    #
+    # @app.callback(
+    #     Output('cluster_plot', 'figure'),
+    #     [Input('cluster_dropdown', 'value')])
+    # def update_crime(cluster):
+    #     figure = network.get_nplot(cluster)
+    #     return [figure]
 
     # callback prediction
     @app.callback(
         [Output('outputTarget', 'children'),
          Output('outputProbability', 'children')],
         [Input('buttonPredict', 'n_clicks')],
-        [State('edad-input', 'value'),
-         State('genero-input', 'value'),
-         State('sentencia-input', 'value'),
-         State('estudio-input', 'value'),
-         State('educativo-input', 'value'),
-         State('trabajo-input', 'value'),
-         State('intramuros-input', 'value'),
-         State('delitos-input', 'value'),
-         State('calificado-input', 'value'),
-         State('agravado-input', 'value'),
-         State('cluster1-input', 'value'),
-         State('cluster4-input', 'value'),
-         State('cluster5-input', 'value')
+        [State('edad-slider', 'value'),
+         State('genero-slider', 'value'),
+         State('sentencia-slider', 'value'),
+         State('estudio-slider', 'value'),
+         State('educativo-slider', 'value'),
+         State('trabajo-slider', 'value'),
+         State('intramuros-slider', 'value'),
+         State('delitos-slider', 'value'),
+         State('calificado-slider', 'value'),
+         State('agravado-slider', 'value'),
+         State('cluster1-slider', 'value'),
+         State('cluster4-slider', 'value'),
+         State('cluster5-slider', 'value')
          ])
     def update_output(n_clicks, age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5):
         target, probability = model.get_pred(age, gender, sentence, study, education, work, intramuros, crimes, calificado, agravado, cluster1, cluster4, cluster5)
@@ -232,7 +244,7 @@ def register_callbacks(app):
                 id='edad-selected'
             ),
             html.Label(
-                'Gender: {}'.format(gender),
+                'Gender: {}'.format(GENDER[gender]),
                 className="control_label",
                 id='genero-selected'
             ),
@@ -242,22 +254,22 @@ def register_callbacks(app):
                 id='sentencia-selected'
             ),
             html.Label(
-                'Study activities: {}'.format(estudio),
+                'Study activities: {}'.format(STUDY[estudio]),
                 className="control_label",
                 id='estudio-selected'
             ),
             html.Label(
-                'Education level: {}'.format(education),
+                'Education: {}'.format(EDUCATION[education]),
                 className="control_label",
                 id='educativo-selected'
             ),
             html.Label(
-                'Work activities: {}'.format(work),
+                'Work activities: {}'.format(WORK[work]),
                 className="control_label",
                 id='trabajo-selected'
             ),
             html.Label(
-                'Intramuros state: {}'.format(intramuros),
+                'Intramuros state: {}'.format(INTRAMUROS[intramuros]),
                 className="control_label",
                 id='intramuros-selected'
             ),
@@ -267,126 +279,28 @@ def register_callbacks(app):
                 id='delitos-selected'
             ),
             html.Label(
-                'Crime(s) Calificado: {}'.format(calificado),
+                'Crime(s) Calificado: {}'.format(CALIFICADO[calificado]),
                 className="control_label",
                 id='calificado-selected'
             ),
             html.Label(
-                'Crime(s) Agravado: {}'.format(agravado),
+                'Crime(s) Agravado: {}'.format(AGRAVADO[agravado]),
                 className="control_label",
                 id='agravado-selected'
             ),
             html.Label(
-                'Belongs to crime group 1: {}'.format(cluster1),
+                'Belongs to crime group 1: {}'.format(CLUSTER1[cluster1]),
                 className="control_label",
                 id='cluster1-selected'
             ),
             html.Label(
-                'Belongs to crime group 4: {}'.format(cluster4),
+                'Belongs to crime group 4: {}'.format(CLUSTER4[cluster4]),
                 className="control_label",
                 id='cluster4-selected'
             ),
             html.Label(
-                'Belongs to crime group 5: {}'.format(cluster5),
+                'Belongs to crime group 5: {}'.format(CLUSTER5[cluster5]),
                 className="control_label",
                 id='cluster5-selected'
             ),
         ]
-
-    ##old slider single variables
-    # # callback slider prediction age
-    # @app.callback(
-    #     [
-    #         Output('edad-range', 'children')
-    #     ],
-    #     [
-    #         Input("edad-slider", "value")
-    #     ]
-    # )
-    # def slider_value(value):
-    #     selected = 'Age: {}'.format(value)
-    #     return [
-    #         html.P(
-    #             selected,
-    #             className="control_label",
-    #             id='age-selected',
-    #             style={'font-weight': 'bold'}
-    #         )
-    #     ]
-    #
-    ##old callbacks using DatePicker
-    # # callback bar plot
-    # @app.callback(
-    #     [
-    #         Output('characterization-barsentence', 'figure')
-    #     ],
-    #     [
-    #         Input("geographic_dropdown", "value"),
-    #         Input("target_dropdown", "value"),
-    #         Input("state_dropdown", "value"),
-    #         Input("date_picker", "start_date"),
-    #         Input("date_picker", "end_date")
-    #     ]
-    # )
-    # def update_barsentence(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
-    #     if None in state_dropdown:
-    #         state_dropdown = ['BOGOTA D.C.']
-    #     figure = charts.getBarsentence(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
-    #     return [figure]
-
-    # # callback bar plot
-    # @app.callback(
-    #     [
-    #         Output('characterization-barage', 'figure')
-    #     ],
-    #     [
-    #         Input("geographic_dropdown", "value"),
-    #         Input("target_dropdown", "value"),
-    #         Input("state_dropdown", "value"),
-    #         Input("date_picker", "start_date"),
-    #         Input("date_picker", "end_date")
-    #     ]
-    # )
-    # def update_bar(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
-    #     if None in state_dropdown:
-    #         state_dropdown = ['BOGOTA D.C.']
-    #     figure = charts.getBarage(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
-    #     return [figure]
-
-    # # callback line plot
-    # @app.callback(
-    #     [
-    #         Output('characterization-line', 'figure')
-    #     ],
-    #     [
-    #         Input("geographic_dropdown", "value"),
-    #         Input("target_dropdown", "value"),
-    #         Input("state_dropdown", "value"),
-    #         Input("date_picker", "start_date"),
-    #         Input("date_picker", "end_date")
-    #     ]
-    # )
-    # def update_line(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
-    #     if None in state_dropdown:
-    #         state_dropdown = ['BOGOTA D.C.']
-    #     figure = charts.getLine(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
-    #     return [figure]
-    #
-    # # callback block plot
-    # @app.callback(
-    #     [
-    #         Output('characterization-block', 'figure')
-    #     ],
-    #     [
-    #         Input("geographic_dropdown", "value"),
-    #         Input("target_dropdown", "value"),
-    #         Input("state_dropdown", "value"),
-    #         Input("date_picker", "start_date"),
-    #         Input("date_picker", "end_date")
-    #     ]
-    # )
-    # def update_block(geographicValue, target_dropdown, state_dropdown, start_date, end_date):
-    #     if None in state_dropdown:
-    #         state_dropdown = ['BOGOTA D.C.']
-    #     figure = charts.getBlock(geographicValue, target_dropdown, state_dropdown, start_date, end_date)
-    #     return [figure]
