@@ -41,9 +41,9 @@ CLUSTERS = {0: 'Acts involving fraud, deception, or corruption',
 
 #categorical prediction vars
 GENDER = {0: "Female", 1: "Male"}
-STUDY = {0: "Unschooled", 1: "Schooled"}
+STUDY = {0: "No", 1: "Yes"}
 EDUCATION = {0: 'ANALFABETA', 1: 'CICLO I', 2: 'CICLO II', 3: 'CICLO III', 4: 'CICLO IV', 5: 'TECNOLOGICO', 6: 'TECNICO', 7: 'TECNICO PROFESIONAL', 8: 'PROFESIONAL', 9: 'POST GRADO', 10: 'ESPECIALIZACION', 11: 'MAGISTER'}
-WORK = {0: "Unemployed", 1: "Employed"}
+WORK = {0: "No", 1: "Yes"}
 INTRAMUROS = {0: "Other", 1: "In prison"}
 CALIFICADO = {0: "No Calificado", 1: "Calificado"}
 AGRAVADO = {0: "No Agravado", 1: "Agravado"}

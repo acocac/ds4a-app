@@ -244,7 +244,7 @@ def register_callbacks(app):
                 id='sentencia-selected'
             ),
             html.Label(
-                'Study activities: {}'.format(STUDY[estudio]),
+                'Study activities in prison: {}'.format(STUDY[estudio]),
                 className="control_label",
                 id='estudio-selected'
             ),
@@ -254,7 +254,7 @@ def register_callbacks(app):
                 id='educativo-selected'
             ),
             html.Label(
-                'Work activities: {}'.format(WORK[work]),
+                'Work activities in prison: {}'.format(WORK[work]),
                 className="control_label",
                 id='trabajo-selected'
             ),
