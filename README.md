@@ -17,7 +17,7 @@ Recidivism is a measure of a former prisoner's likelihood to be re-arrested, re-
 The main objective of the project is to "approximate to a better characterization of the recidivist population of the Penitentiary and Prison System in Colombia”. 
 This information is key to have inputs for the formation and monitoring of the criminal policy of the Colombian State in its phases of prevision and tertiary criminalization. 
 
-### Application Overview 
+### Application Overview (please click [here](http://ec2-3-21-168-224.us-east-2.compute.amazonaws.com:8080/) to explore the App online)
 The user can explore the main findings of the project in three navigation tabs i.e. components, Characterization, Crime Network and Prediction. A brief overview of each component is provided as follows.
 
 #### Characterization
@@ -49,6 +49,7 @@ This section was built to give the user predictions of the probability of a conv
 
 ### Documentation
 A detailed step by step guide is under preparation. Meanwhile, the folder notebooks and report (see `notebooks` and `report`) contain jupyter notebook files of the EDA and modeling exercises and the final report delivered as part of this challenge.
+A live version of the App can be found here:
 
 ### Getting started
 Anaconda environment

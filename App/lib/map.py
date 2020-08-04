@@ -22,9 +22,9 @@ px.set_mapbox_access_token(mapbox_token)
 
 
 #load data
-# engine = create_engine(config('DATABASE_URL'))
-# df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
-df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
+engine = create_engine(config('DATABASE_URL'))
+df = pd.read_sql(sql='select * from reincidentes', con=engine, parse_dates=['fecha_ingreso'])
+# df = pd.read_csv('data/data_full_preprocessed.csv', parse_dates=['fecha_ingreso']) #if local > faster loading
 
 
 #load geojson
